@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
   </head>
-  <body>
+  <body ng-controller="TourController">
     <div class="container">
       <div class="row">
         <div class="col-md-2">
@@ -21,11 +21,11 @@
       <div class="row">
         <div class="col-md-10"></div>
         <div class="col-md-2 text-right">
-          <button class="btn btn-primary">Добавить тур</button>
+          <button class="btn btn-primary" ng-click="showForm()">Добавить тур</button>
         </div>
       </div>
       <div class="row">
-        <form id="addTour">
+        <form ng-hide="hiddenForm">
           <div class="col-md-2">
             <h3>Добавление тура</h3>
           </div>
@@ -33,22 +33,22 @@
             <div class="form-group row">
               <div class="col-md-6">
                 <label for="title">Название тура</label>
-                <input type="text" id="title" class="form-control" placeholder="Введите название" />
+                <input type="text" id="title" class="form-control" ng-model="newTour.title" placeholder="Введите название" />
               </div>
             </div>
             <div class="form-group row">
               <div class="col-md-2">
                 <label for="price">Цена</label>
-                <input type="text" id="price" class="form-control" placeholder="Введите цену"/>
+                <input type="text" id="price" class="form-control" ng-model="newTour.price" placeholder="Введите цену"/>
               </div>
             </div>
             <div class="form-group">
                 <label for="text">Описание</label>
-                <textarea id="text" class="form-control" placeholder="Введите описание"></textarea>
+                <textarea id="text" class="form-control" ng-model="newTour.text" placeholder="Введите описание"></textarea>
             </div>
             <div class="form-group text-right">
-              <button class="btn btn-primary">Добавить</button>
-              <button class="btn btn-primary">Отменить</button>
+              <button class="btn btn-primary" ng-click="addTour(newTour)">Добавить</button>
+              <button class="btn btn-primary" ng-click="hideForm()">Отменить</button>
             </div>
           </form>
         </div>
