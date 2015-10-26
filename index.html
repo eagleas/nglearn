@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col-md-10"></div>
         <div class="col-md-2 text-right">
-          <button class="btn btn-primary" ng-click="showForm()">Добавить тур</button>
+          <button class="btn btn-primary" ng-class="{disabled: !hiddenForm}" ng-click="showForm()">Добавить тур</button>
         </div>
       </div>
       <div class="row">
@@ -53,7 +53,7 @@
           </form>
         </div>
       </div>
-      <div class="row item">
+      <div class="row item" ng-repeat="tour in tours">
         <div class="row">
           <div class="col-md-2">
             <img src="images/beach.jpg" width="180"/>
@@ -61,16 +61,14 @@
           <div class="col-md-10">
             <div class="row">
               <div class="col-md-8">
-                <h3>Карибы на неделю на двоих</h3>
+                <h3>{{tour.title}}</h3>
               </div>
               <div class="col-md-4 price text-right">
-                <h3>123 420 руб.</h3>
+                <h3>{{tour.price}} руб.</h3>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
-                Карибы – это настоящий рай с кокосовыми пальмами, роскошными пляжами с белым и желтым песком, великолепными закатами и уникальным подводным миром. Удивительная природа сочетает в себе  массивные вулканы, лазурный океан, кофейные плантации и богатый животный мир.
-              </div>
+              <div class="col-md-12">{{tour.text}}</div>
             </div>
           </div>
         </div>
