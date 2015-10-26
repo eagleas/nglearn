@@ -36,5 +36,11 @@ app.controller('TourController', function($scope){
     $scope.hideForm();
   }
 
+  $scope.deleteTour = function(tour){
+    var index = $scope.tours.indexOf(tour);
+    if (index > -1) {
+      $scope.tours.splice(index, 1);
+    }
+  }
 
 });
