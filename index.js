@@ -26,14 +26,20 @@ app.controller('TourController', function($scope){
     }
   ]
 
-  $scope.clearForm = function(){
-    $scope.newTour = {title: null, price: null, text: null};
+  $scope.emptyTour = function(){
+    return {title: null, price: null, text: null};
   }
+
+  $scope.clearForm = function(){
+    $scope.newTour = $scope.emptyTour()
+  }
+
+  $scope.clearForm();
 
   $scope.addTour = function(newTour){
     $scope.tours.push(angular.copy(newTour));
-    $scope.clearForm();
     $scope.hideForm();
+    $scope.clearForm();
   }
 
   $scope.deleteTour = function(tour){
@@ -41,6 +47,19 @@ app.controller('TourController', function($scope){
     if (index > -1) {
       $scope.tours.splice(index, 1);
     }
+  }
+
+  $scope.editTour = function(tour){
+    $scope.tmpTour = angular.copy(tour);
+    tour.editMode = true;
+  }
+
+  $scope.saveTour = function(tour){
+    angular.copy($scope.tmpTour, tour);
+  }
+
+  $scope.cancelEdit = function(tour){
+    tour.editMode = false;
   }
 
 });
