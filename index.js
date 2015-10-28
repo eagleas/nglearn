@@ -50,12 +50,12 @@ app.controller('TourController', function($scope){
   }
 
   $scope.editTour = function(tour){
-    $scope.tmpTour = angular.copy(tour);
+    tour.draft = angular.copy(tour);
     tour.editMode = true;
   }
 
   $scope.saveTour = function(tour){
-    angular.copy($scope.tmpTour, tour);
+    angular.copy(tour.draft, tour);
   }
 
   $scope.cancelEdit = function(tour){
