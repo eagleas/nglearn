@@ -1,15 +1,20 @@
 angular.module('tnTour', ['ngRoute'])
-  .config(function($routeProvider){
+  .config(function($routeProvider, $locationProvider){
     $routeProvider
     .when('/', {
       templateUrl: "list.html",
       controller: 'ToursController'
     })
-    .when('/tours/:tour', {
+    .when('/tours/:slug', {
       templateUrl: 'tour.html',
       controller: 'TourController'
     })
-  })
+    .otherwise({
+      redirectTo: '/'
+    })
+
+    $locationProvider.html5Mode(true);
+  });
 
   var allTours;
 
