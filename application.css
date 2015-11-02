@@ -3,7 +3,7 @@ body {
 }
 
 .container {
-  padding-top: 15px;
+  padding: 15px 100px;
 }
 
 .item {
@@ -13,4 +13,14 @@ body {
 .input-large {
   font-size: 24px;
 }
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+}
+
+.edit-form {
+  padding-top: 10px;
+}
+
 
