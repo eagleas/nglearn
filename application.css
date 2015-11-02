@@ -10,6 +10,9 @@ body {
   margin-top: 10px;
 }
 
+select.input-large {
+  font-size: 22px;
+}
 .input-large {
   font-size: 24px;
 }

@@ -18,7 +18,15 @@
         </div>
       </div>
       <div class="form-group row">
-        <div class="col-md-2">
+        <div class="col-md-4">
+          <label for="country">Страна</label>
+          <select class="form-control" id="country" ng-model="newTour.country">
+            <option ng-repeat="country in countries">{{country}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3">
           <label for="price">Цена</label>
           <input type="text" id="price" class="form-control" ng-model="newTour.price" placeholder="Введите цену"/>
         </div>
@@ -37,19 +45,15 @@
 <div class="row item" ng-repeat="tour in tours track by $index">
   <div ng-show="!tour.editMode">
     <div class="row">
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-10">
-            <h3><a ng-href="/#/tours/{{tour.slug}}">{{tour.title}}</a></h3>
-          </div>
-          <div class="col-md-2 price text-right">
-            <h3>{{tour.price}} руб.</h3>
-          </div>
-        </div>
-        <div class="row" ng-if="admFlag">
-          <div class="col-md-12">{{tour.text}}</div>
-        </div>
+      <div class="col-md-10">
+        <h3><a ng-href="/#/tours/{{tour.slug}}">{{tour.title}}</a> ({{tour.country}})</h3>
       </div>
+      <div class="col-md-2 price text-right">
+        <h3>{{tour.price}} руб.</h3>
+      </div>
+    </div>
+    <div class="row" ng-if="admFlag">
+      <div class="col-md-12">{{tour.text}}</div>
     </div>
     <div class="row text-right" ng-if="admFlag">
       <div class="col-md-8"></div>
@@ -57,34 +61,32 @@
       <div class="col-md-2"><a ng-click="deleteTour(tour)">Удалить</a></div>
     </div>
   </div>
-  <div ng-hide="!tour.editMode">
+  <div ng-show="tour.editMode">
     <div class="row">
+      <div class="col-md-8">
+        <input type="text" class="form-control input-large" ng-model="tour.draft.title" />
+      </div>
       <div class="col-md-2">
-        <h3>Редактирование</h3>
+        <select class="form-control input-large" ng-model="tour.draft.country">
+          <option ng-repeat="country in countries">{{country}}</option>
+        </select>
       </div>
-      <div class="col-md-10">
-        <div class="row">
-          <div class="col-md-10">
-            <input type="text" class="form-control input-large" ng-model="tour.draft.title" />
-          </div>
-          <div class="col-md-2 price text-right">
-            <input type="text" class="form-control input-large" ng-model="tour.draft.price" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <textarea id="text" class="form-control" ng-model="tour.draft.text"></textarea>
-          </div>
-        </div>
+      <div class="col-md-2 price text-right">
+        <input type="text" class="form-control input-large" ng-model="tour.draft.price" />
       </div>
-      <div class="form-group text-right">
-        <div class="col-md-8"></div>
-        <div class="col-md-2">
-          <button class="btn btn-primary" ng-click="saveTour(tour)">Сохранить</button>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-primary" ng-click="cancelEdit(tour)">Отменить</button>
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <textarea id="text" class="form-control" ng-model="tour.draft.text"></textarea>
+      </div>
+    </div>
+    <div class="row form-group text-right">
+      <div class="col-md-8"></div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" ng-click="saveTour(tour)">Сохранить</button>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" ng-click="cancelEdit(tour)">Отменить</button>
       </div>
     </div>
   </div>
