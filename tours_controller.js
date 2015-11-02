@@ -4,7 +4,7 @@ angular.module('tnTour').controller('ToursController', function($scope){
   $scope.tours = allTours;
   $scope.countries = allCountries;
 
-  $scope.store = function(){
+  function store(){
     localStorage.tours = JSON.stringify($scope.tours);
   }
 
@@ -34,7 +34,7 @@ angular.module('tnTour').controller('ToursController', function($scope){
     $scope.tours.push(angular.copy(newTour));
     $scope.hideForm();
     $scope.clearForm();
-    $scope.store();
+    store();
   }
 
   $scope.deleteTour = function(tour){
@@ -42,7 +42,7 @@ angular.module('tnTour').controller('ToursController', function($scope){
     if (index > -1) {
       $scope.tours.splice(index, 1);
     }
-    $scope.store();
+    store();
   }
 
   $scope.editTour = function(tour){
@@ -53,7 +53,7 @@ angular.module('tnTour').controller('ToursController', function($scope){
   $scope.saveTour = function(tour){
     tour.draft.slug = url_slug(tour.draft.title);
     angular.copy(tour.draft, tour);
-    $scope.store();
+    store();
   }
 
   $scope.cancelEdit = function(tour){

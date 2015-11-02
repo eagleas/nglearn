@@ -4,7 +4,7 @@ angular.module('tnTour').controller('CountriesController', function($scope){
   $scope.countries = allCountries;
   $scope.newCountry = null;
 
-  $scope.store = function(){
+  function store(){
     $scope.countries.sort();
     localStorage.countries = JSON.stringify($scope.countries);
   }
@@ -12,7 +12,7 @@ angular.module('tnTour').controller('CountriesController', function($scope){
   $scope.addCountry = function(newCountry){
     $scope.countries.push(angular.copy(newCountry));
     $scope.newCountry = null;
-    $scope.store();
+    store();
   }
 
   $scope.deleteCountry = function(country){
@@ -20,26 +20,27 @@ angular.module('tnTour').controller('CountriesController', function($scope){
     if (index > -1) {
       $scope.countries.splice(index, 1);
     }
-    $scope.store();
+    store();
   }
 
   $scope.editCountry = function(country){
-    $scope.editMode = country;
-    $scope.tmpEdit = country;
+    $scope.edit = {
+      draft: angular.copy(country),
+      backup: angular.copy(country)
+    };
   }
 
-  $scope.saveCountry = function(edit){
-    var index = $scope.countries.indexOf($scope.editMode);
+  $scope.saveCountry = function(){
+    var index = $scope.countries.indexOf($scope.edit.backup);
     if (index > -1) {
-      $scope.countries[index] = angular.copy(edit);
+      $scope.countries[index] = angular.copy($scope.edit.draft);
     }
-    $scope.editMode = null;
-    $scope.store();
+    $scope.edit.backup = null;
+    store();
   }
 
   $scope.cancelEdit = function(){
-    $scope.editMode = null;
-    $scope.tmpEdit = null;
+    $scope.edit.backup = null;
   }
 
 });
