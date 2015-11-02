@@ -4,10 +4,15 @@ angular.module('tnTour').controller('CountriesController', function($scope){
   $scope.countries = allCountries;
   $scope.newCountry = null;
 
+  $scope.store = function(){
+    $scope.countries.sort();
+    localStorage.countries = JSON.stringify($scope.countries);
+  }
+
   $scope.addCountry = function(newCountry){
     $scope.countries.push(angular.copy(newCountry));
     $scope.newCountry = null;
-    localStorage.countries = JSON.stringify($scope.countries);
+    $scope.store();
   }
 
   $scope.deleteCountry = function(country){
@@ -15,12 +20,12 @@ angular.module('tnTour').controller('CountriesController', function($scope){
     if (index > -1) {
       $scope.countries.splice(index, 1);
     }
-    localStorage.countries = JSON.stringify($scope.countries);
+    $scope.store();
   }
 
   $scope.editCountry = function(country){
     $scope.editMode = country;
-    $scope.tmpEdit = angular.copy(country);
+    $scope.tmpEdit = country;
   }
 
   $scope.saveCountry = function(edit){
@@ -29,7 +34,7 @@ angular.module('tnTour').controller('CountriesController', function($scope){
       $scope.countries[index] = angular.copy(edit);
     }
     $scope.editMode = null;
-    localStorage.countries = JSON.stringify($scope.countries);
+    $scope.store();
   }
 
   $scope.cancelEdit = function(){
