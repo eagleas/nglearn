@@ -1,9 +1,17 @@
-<h2>Туры</h2>
-<div class="row" ng-if="admFlag">
-  <div class="col-md-10"></div>
-  <div class="col-md-2 text-right">
-    <button class="btn btn-primary" ng-class="{disabled: !hiddenForm}" ng-click="showForm()">Добавить тур</button>
+<div class="row">
+  <div class=col-md-10>
+    <h2>Туры</h2>
   </div>
+  <div class="col-md-2">
+    <label for="country">Страна</label>
+    <select class="form-control" id="country" ng-model="selectedCountry">
+      <option value="" default>Все страны</option>
+      <option ng-repeat="country in countries">{{country}}</option>
+    </select>
+  </div>
+</div>
+<div class="row edit-form" ng-if="admFlag">
+  <button class="btn btn-primary" ng-disabled="!hiddenForm" ng-click="showForm()">Добавить тур</button>
 </div>
 <div class="row">
   <form ng-hide="hiddenForm">
@@ -42,7 +50,7 @@
     </form>
   </div>
 </div>
-<div class="row item" ng-repeat="tour in tours track by $index">
+<div class="row item" ng-repeat="tour in tours | filter: {country: selectedCountry}">
   <div ng-show="!tour.editMode">
     <div class="row">
       <div class="col-md-10">

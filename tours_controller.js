@@ -42,6 +42,7 @@ angular.module('tnTour').controller('ToursController', function($scope){
     if (index > -1) {
       $scope.tours.splice(index, 1);
     }
+    $scope.store();
   }
 
   $scope.editTour = function(tour){

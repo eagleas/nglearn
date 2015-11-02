@@ -27,7 +27,8 @@ angular.module('tnTour', ['ngRoute'])
     $locationProvider.html5Mode(true);
   })
   .run(function($rootScope, $route, $location){
-    if ($route.routes[$location.$$path].admFlag) {
+    var route = $route.routes[$location.$$path];
+    if (route && route.admFlag) {
       $rootScope.admFlag = true;
     }
   });
