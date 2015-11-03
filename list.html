@@ -1,0 +1,101 @@
+<div class="row">
+  <div class=col-md-10>
+    <h2>Туры</h2>
+  </div>
+  <div class="col-md-2">
+    <label for="country">Страна</label>
+    <select class="form-control" id="country" ng-model="selectedCountry">
+      <option value="" default>Все страны</option>
+      <option ng-repeat="country in countries">{{country}}</option>
+    </select>
+  </div>
+</div>
+<div class="row edit-form" ng-if="admFlag">
+  <button class="btn btn-primary" ng-disabled="!hiddenForm" ng-click="showForm()">Добавить тур</button>
+</div>
+<div class="row">
+  <form ng-hide="hiddenForm">
+    <div class="col-md-2">
+      <h3>Добавление тура</h3>
+    </div>
+    <div class="col-md-10">
+      <div class="form-group row">
+        <div class="col-md-6">
+          <label for="title">Название тура</label>
+          <input type="text" id="title" class="form-control" ng-model="newTour.title" placeholder="Введите название" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-4">
+          <label for="country">Страна</label>
+          <select class="form-control" id="country" ng-model="newTour.country">
+            <option ng-repeat="country in countries">{{country}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3">
+          <label for="price">Цена</label>
+          <input type="text" id="price" class="form-control" ng-model="newTour.price" placeholder="Введите цену"/>
+        </div>
+      </div>
+      <div class="form-group">
+          <label for="text">Описание</label>
+          <textarea id="text" class="form-control" ng-model="newTour.text" placeholder="Введите описание"></textarea>
+      </div>
+      <div class="form-group text-right">
+        <button class="btn btn-primary" ng-click="addTour(newTour)">Добавить</button>
+        <button class="btn btn-primary" ng-click="hideForm()">Отменить</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row item" ng-repeat="tour in tours | filter: {country: selectedCountry}">
+  <div ng-show="!tour.editMode">
+    <div class="row">
+      <div class="col-md-10">
+        <h3><a ng-href="/#/tours/{{tour.slug}}">{{tour.title}}</a> ({{tour.country}})</h3>
+      </div>
+      <div class="col-md-2 price text-right">
+        <h3>{{tour.price}} руб.</h3>
+      </div>
+    </div>
+    <div class="row" ng-if="admFlag">
+      <div class="col-md-12">{{tour.text}}</div>
+    </div>
+    <div class="row text-right" ng-if="admFlag">
+      <div class="col-md-8"></div>
+      <div class="col-md-2"><a ng-click="editTour(tour)">Редактировать</a></div>
+      <div class="col-md-2"><a ng-click="deleteTour(tour)">Удалить</a></div>
+    </div>
+  </div>
+  <div ng-show="tour.editMode">
+    <div class="row">
+      <div class="col-md-8">
+        <input type="text" class="form-control input-large" ng-model="tour.draft.title" />
+      </div>
+      <div class="col-md-2">
+        <select class="form-control input-large" ng-model="tour.draft.country">
+          <option ng-repeat="country in countries">{{country}}</option>
+        </select>
+      </div>
+      <div class="col-md-2 price text-right">
+        <input type="text" class="form-control input-large" ng-model="tour.draft.price" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <textarea id="text" class="form-control" ng-model="tour.draft.text"></textarea>
+      </div>
+    </div>
+    <div class="row form-group text-right">
+      <div class="col-md-8"></div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" ng-click="saveTour(tour)">Сохранить</button>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" ng-click="cancelEdit(tour)">Отменить</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<h2>Страны</h2>
+<div class="row vertical-align edit-form">
+  <div class="col-md-4">
+    <input type="text" class="form-control input-large" ng-model="newCountry" />
+  </div>
+  <div class="col-md-2">
+    <button class="btn btn-primary" ng-click="addCountry(newCountry)">Добавить</button>
+  </div>
+</div>
+<div ng-repeat="country in countries track by $index">
+  <div ng-show="country != edit.backup">
+    <div class="row vertical-align">
+      <div class="col-md-4"><h3>{{country}}</a></h3> </div>
+      <div class="col-md-2"><a ng-click="editCountry(country)">Редактировать</a></div>
+      <div class="col-md-2"><a ng-click="deleteCountry(country)">Удалить</a></div>
+    </div>
+  </div>
+  <div ng-show="country == edit.backup">
+    <div class="row vertical-align edit-form">
+      <div class="col-md-4">
+        <input type="text" class="form-control input-large" ng-model="edit.draft" />
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" ng-click="saveCountry()">Сохранить</button>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" ng-click="cancelEdit()">Отменить</button>
+      </div>
+    </div>
+  </div>
+</div>
