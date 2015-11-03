@@ -1,6 +1,6 @@
-angular.module('tnTour', ['ngRoute'])
+angular.module('tnTour', ['ngRoute', 'ngResource'])
 
-  .config(function($routeProvider, $locationProvider){
+  .config(function($routeProvider, $locationProvider, $httpProvider){
     $routeProvider
     .when('/', {
       templateUrl: "list.html",
@@ -25,6 +25,11 @@ angular.module('tnTour', ['ngRoute'])
     })
 
     $locationProvider.html5Mode(true);
+
+    $httpProvider.defaults.headers.common = {
+      'X-Parse-Application-Id': 'Pb2jFmiCyCOKDPr0JIQBFYlduDtlPaqJ8A1oFYWz',
+      'X-Parse-REST-API-Key': 'uK7LoJdIifGCLMhZJ3BS0YS5FpXwNHwIreKUiPSC'
+    }
   })
   .run(function($rootScope, $route, $location){
     var route = $route.routes[$location.$$path];
@@ -34,15 +39,6 @@ angular.module('tnTour', ['ngRoute'])
   });
 
   var allTours;
-  var allCountries;
-
-  if(typeof(localStorage.countries) != 'undefined') {
-    allCountries = JSON.parse(localStorage.countries);
-  } else {
-    // initial default countries
-    allCountries = [ 'Куба', 'Украина', 'Россия' ]
-  }
-
 
   if(typeof(localStorage.tours) != 'undefined') {
     allTours = JSON.parse(localStorage.tours);

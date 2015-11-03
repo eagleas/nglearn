@@ -2,7 +2,6 @@
 angular.module('tnTour').controller('ToursController', function($scope){
 
   $scope.tours = allTours;
-  $scope.countries = allCountries;
 
   function store(){
     localStorage.tours = JSON.stringify($scope.tours);
