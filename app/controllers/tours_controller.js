@@ -1,23 +1,8 @@
 
-angular.module('tnTour').controller('ToursController', function($scope, $resource){
-
-  function parseResult(response){
-    data = angular.fromJson(response);
-    return data.results;
-  }
-
-  var Tour = $resource(
-    'https://api.parse.com/1/classes/Tour/:objectId',
-    { objectId: '@objectId'},
-    {
-      query: { isArray: true, transformResponse: parseResult },
-      update: { method: 'PUT' }
-    }
-
-  );
+angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Country', function($scope, Tour, Country){
 
   $scope.tours = Tour.query();
-  //$scope.tours = allTours;
+  $scope.countries = Country.query();
 
   $scope.hiddenForm = true;
 
@@ -71,4 +56,4 @@ angular.module('tnTour').controller('ToursController', function($scope, $resourc
     tour.editMode = false;
   }
 
-});
+}]);

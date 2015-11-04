@@ -6,7 +6,7 @@
     <label for="country">Страна</label>
     <select class="form-control" id="country" ng-model="selectedCountry">
       <option value="" default>Все страны</option>
-      <option ng-repeat="country in countries">{{country}}</option>
+      <option ng-repeat="country in countries">{{country.name}}</option>
     </select>
   </div>
 </div>
