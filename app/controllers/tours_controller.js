@@ -1,13 +1,29 @@
 
-angular.module('tnTour').controller('ToursController', function($scope){
+angular.module('tnTour').controller('ToursController', function($scope, $resource){
 
-  $scope.tours = allTours;
-
-  function store(){
-    localStorage.tours = JSON.stringify($scope.tours);
+  function parseResult(response){
+    data = angular.fromJson(response);
+    return data.results;
   }
 
+  var Tour = $resource(
+    'https://api.parse.com/1/classes/Tour/:objectId',
+    { objectId: '@objectId'},
+    {
+      query: { isArray: true, transformResponse: parseResult },
+      update: { method: 'PUT' }
+    }
+
+  );
+
+  $scope.tours = Tour.query();
+  //$scope.tours = allTours;
+
   $scope.hiddenForm = true;
+
+  $scope.clearForm = function(){
+    $scope.newTour = $scope.emptyTour()
+  }
 
   $scope.showForm = function(){
     $scope.clearForm();
@@ -19,11 +35,7 @@ angular.module('tnTour').controller('ToursController', function($scope){
   }
 
   $scope.emptyTour = function(){
-    return {title: null, price: null, text: null};
-  }
-
-  $scope.clearForm = function(){
-    $scope.newTour = $scope.emptyTour()
+    return {title: null, country: null, price: null, duration: null, text: null};
   }
 
   $scope.clearForm();
