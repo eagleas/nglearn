@@ -6,12 +6,12 @@ angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Count
 
   $scope.hiddenForm = true;
 
-  $scope.clearForm = function(){
-    $scope.newTour = $scope.emptyTour()
+  function clearForm(){
+    $scope.newTour = emptyTour()
   }
 
   $scope.showForm = function(){
-    $scope.clearForm();
+    clearForm();
     $scope.hiddenForm = false;
   }
 
@@ -19,26 +19,32 @@ angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Count
     $scope.hiddenForm = true;
   }
 
-  $scope.emptyTour = function(){
+  function emptyTour(){
     return {title: null, country: null, price: null, duration: null, text: null};
   }
 
-  $scope.clearForm();
+  clearForm();
 
   $scope.addTour = function(newTour){
-    newTour.slug = url_slug(newTour.title);
-    $scope.tours.push(angular.copy(newTour));
-    $scope.hideForm();
-    $scope.clearForm();
-    store();
+    new Tour(newTour).$save().then(
+      function(tour){
+        var tourFromServer = angular.extend(tour, newTour);
+        $scope.tours.push(tourFromServer);
+        $scope.hideForm();
+        newTour = emptyTour();
+      }
+    );
   }
 
   $scope.deleteTour = function(tour){
-    var index = $scope.tours.indexOf(tour);
-    if (index > -1) {
-      $scope.tours.splice(index, 1);
-    }
-    store();
+    new Tour(tour).$delete().then(
+      function(){
+        var index = $scope.tours.indexOf(tour);
+        if (index > -1) {
+          $scope.tours.splice(index, 1);
+        }
+      }
+    );
   }
 
   $scope.editTour = function(tour){
@@ -47,9 +53,11 @@ angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Count
   }
 
   $scope.saveTour = function(tour){
-    tour.draft.slug = url_slug(tour.draft.title);
-    angular.copy(tour.draft, tour);
-    store();
+    new Tour(tour.draft).$update().then(
+      function(){
+        angular.copy(tour.draft, tour);
+      }
+    )
   }
 
   $scope.cancelEdit = function(tour){
