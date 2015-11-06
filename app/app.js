@@ -6,7 +6,7 @@ angular.module('tnTour', ['ngRoute', 'ngResource'])
       templateUrl: "views/list.html",
       controller: 'ToursController',
     })
-    .when('/tours/:slug', {
+    .when('/tours/:objectId', {
       templateUrl: 'views/tour.html',
       controller: 'TourController'
     })

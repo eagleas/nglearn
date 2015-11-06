@@ -1,9 +1,5 @@
-angular.module('tnTour').controller('TourController', function($scope, $routeParams){
+angular.module('tnTour').controller('TourController', ["$scope", "$routeParams", "Tour", function($scope, $routeParams, Tour){
 
-  angular.forEach(allTours, function(tour){
-    if ($routeParams.slug == tour.slug) {
-      $scope.tour = tour;
-    }
-  })
+  $scope.tour = Tour.get({objectId: $routeParams.objectId});
 
-})
+}])
