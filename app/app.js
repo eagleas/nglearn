@@ -3,20 +3,20 @@ angular.module('tnTour', ['ngRoute', 'ngResource'])
   .config(function($routeProvider, $locationProvider, $httpProvider){
     $routeProvider
     .when('/', {
-      templateUrl: "views/list.html",
+      templateUrl: "app/views/list.html",
       controller: 'ToursController',
     })
     .when('/tours/:objectId', {
-      templateUrl: 'views/tour.html',
+      templateUrl: 'app/views/tour.html',
       controller: 'TourController'
     })
     .when('/adm/tours', {
-      templateUrl: "views/list.html",
+      templateUrl: "app/views/list.html",
       controller: 'ToursController',
       admFlag: true,
     })
     .when('/adm/countries', {
-      templateUrl: 'views/countries.html',
+      templateUrl: 'app/views/countries.html',
       controller: 'CountriesController',
       admFlag: true
     })
