@@ -20,12 +20,16 @@ angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Count
   }
 
   function emptyTour(){
-    return {title: null, country: null, price: null, duration: null, text: null};
+    return {title: null, cntry: null, price: null, duration: null, text: null};
   }
 
   clearForm();
 
   $scope.addTour = function(newTour){
+    var country_name = $scope.countries.find(function(e){
+      return e.objectId == newTour.cntry.objectId;
+    }).name;
+    newTour.cntry = angular.extend(newTour.cntry, {__type: 'Pointer', className: 'Country', name: country_name})
     new Tour(newTour).$save().then(
       function(tour){
         var tourFromServer = angular.extend(tour, newTour);
@@ -50,6 +54,7 @@ angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Count
   $scope.editTour = function(tour){
     tour.draft = angular.copy(tour);
     tour.editMode = true;
+    console.log(tour.draft.cntry.objectId);
   }
 
   $scope.saveTour = function(tour){

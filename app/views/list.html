@@ -28,8 +28,8 @@
       <div class="form-group row">
         <div class="col-md-4">
           <label for="country">Страна</label>
-          <select class="form-control" id="country" ng-model="newTour.country">
-            <option ng-repeat="country in countries">{{country.name}}</option>
+          <select class="form-control" id="country" ng-model="newTour.cntry.objectId" required >
+            <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
           </select>
         </div>
       </div>
@@ -55,7 +55,7 @@
     <div class="row">
       <div class="col-md-10">
         <a ng-href="/#/tours/{{tour.objectId}}" class="tour-title">{{tour.title}}</a>
-        <span class="label-country" >{{tour.country}}</span>
+        <span class="label-country" >{{tour.cntry.name}}</span>
       </div>
       <div class="col-md-2 price text-right">
         <h3>{{tour.price}} руб.</h3>
@@ -76,8 +76,8 @@
         <input type="text" class="form-control input-large" ng-model="tour.draft.title" />
       </div>
       <div class="col-md-2">
-        <select class="form-control input-large" ng-model="tour.draft.country">
-          <option ng-repeat="country in countries">{{country.name}}</option>
+        <select class="form-control input-large" ng-model="tour.draft.cntry.objectId">
+          <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
         </select>
       </div>
       <div class="col-md-2 price text-right">
