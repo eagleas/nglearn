@@ -6,8 +6,16 @@ body {
   padding: 15px 100px;
 }
 
+h1.title a {
+  text-decoration: none;
+}
+
 .item {
   margin-top: 10px;
+}
+
+.duration {
+  color: #ff6666
 }
 
 select.input-large {

@@ -25,11 +25,18 @@ angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Count
 
   clearForm();
 
-  $scope.addTour = function(newTour){
-    var country_name = $scope.countries.find(function(e){
-      return e.objectId == newTour.cntry.objectId;
+  function getCountryName(objectId){
+    return $scope.countries.find(function(e){
+      return e.objectId == objectId;
     }).name;
-    newTour.cntry = angular.extend(newTour.cntry, {__type: 'Pointer', className: 'Country', name: country_name})
+  }
+
+  $scope.addTour = function(newTour){
+    angular.extend(newTour.cntry, {
+      __type: 'Pointer',
+      className: 'Country',
+      name: getCountryName(newTour.cntry.objectId)
+    })
     new Tour(newTour).$save().then(
       function(tour){
         var tourFromServer = angular.extend(tour, newTour);
@@ -54,10 +61,14 @@ angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Count
   $scope.editTour = function(tour){
     tour.draft = angular.copy(tour);
     tour.editMode = true;
-    console.log(tour.draft.cntry.objectId);
   }
 
   $scope.saveTour = function(tour){
+    angular.extend(tour.draft.cntry, {
+      __type: 'Pointer',
+      className: 'Country',
+      name: getCountryName(tour.draft.cntry.objectId)
+    })
     new Tour(tour.draft).$update().then(
       function(){
         angular.copy(tour.draft, tour);
