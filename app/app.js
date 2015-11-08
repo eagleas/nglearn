@@ -37,9 +37,14 @@ angular.module('tnTour', ['ngRoute', 'ngResource'])
     }
   })
   .run(function($rootScope, $route, $location){
-    var route = $route.routes[$location.$$path];
-    if (route && route.admFlag) {
-      $rootScope.admFlag = true;
-    }
+    $rootScope.$on("$locationChangeSuccess", function(){
+      var path = $location.path();
+      var route = $route.routes[path];
+      if (route && route.admFlag) {
+        $rootScope.admFlag = true;
+      } else {
+        $rootScope.admFlag = false;
+      }
+    });
   });
 
