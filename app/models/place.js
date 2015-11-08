@@ -1,10 +1,10 @@
 angular.module('tnTour')
-  .provider('Tour', function(){
+  .provider('Place', function(){
 
     this.$get = ['$resource', function($resource){
-      var Tour = $resource(
-        'https://api.parse.com/1/classes/Tour/:objectId?include=cntry,place',
-        { objectId: '@objectId' },
+      var Place = $resource(
+        'https://api.parse.com/1/classes/Place/:objectId',
+        { objectId: '@objectId'},
         {
           query: { isArray: true, transformResponse: parseResult },
           update: { method: 'PUT' }
@@ -13,10 +13,12 @@ angular.module('tnTour')
 
       function parseResult(response){
         data = angular.fromJson(response);
-        return data.results;
+        var places = data.results;
+        places.sort(function(a, b){ return a.name.localeCompare(b.name) });
+        return places;
       }
 
-      return Tour;
+      return Place;
     }];
 
   });

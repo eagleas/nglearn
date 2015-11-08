@@ -32,6 +32,12 @@
             <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
           </select>
         </div>
+        <div class="col-md-4">
+          <label for="place">Место</label>
+          <select class="form-control" id="place" ng-model="newTour.place.objectId" required >
+            <option ng-repeat="place in places" value="{{place.objectId}}">{{place.name}}</option>
+          </select>
+        </div>
       </div>
       <div class="form-group row">
         <div class="col-md-3">
@@ -62,6 +68,7 @@
       <div class="col-md-10">
         <a ng-href="/#/tours/{{tour.objectId}}" class="tour-title">{{tour.title}}</a>
         <span class="label-country" >{{tour.cntry.name}}</span>
+        <span class="label-place" ng-if="tour.place">{{tour.place.name}}</span>
       </div>
       <div class="col-md-2 price text-right">
         <h3>{{tour.price}} руб.</h3>
@@ -80,12 +87,17 @@
   </div>
   <div ng-show="tour.editMode">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-6">
         <input type="text" class="form-control input-large" ng-model="tour.draft.title" />
       </div>
       <div class="col-md-2">
-        <select class="form-control input-large" ng-model="tour.draft.cntry.objectId">
+        <select class="form-control" ng-model="tour.draft.cntry.objectId">
           <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select class="form-control" ng-model="tour.draft.place.objectId">
+          <option ng-repeat="place in places" value="{{place.objectId}}">{{place.name}}</option>
         </select>
       </div>
       <div class="col-md-2 price text-right">
@@ -99,7 +111,7 @@
     </div>
     <div class="row form-group text-right">
       <div class="col-md-8 text-left">
-        <input type="number" class="form-control input-large" ng-model="tour.draft.duration" />
+        <input type="number" class="form-control" ng-model="tour.draft.duration" />
       </div>
       <div class="col-md-2">
         <button class="btn btn-primary" ng-click="saveTour(tour)">Сохранить</button>

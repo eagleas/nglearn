@@ -20,6 +20,11 @@ angular.module('tnTour', ['ngRoute', 'ngResource'])
       controller: 'CountriesController',
       admFlag: true
     })
+    .when('/adm/places', {
+      templateUrl: 'app/views/places.html',
+      controller: 'PlacesController',
+      admFlag: true
+    })
     .otherwise({
       redirectTo: '/'
     })

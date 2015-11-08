@@ -1,8 +1,10 @@
 
-angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Country', function($scope, Tour, Country){
+angular.module('tnTour').controller('ToursController',
+  ['$scope', 'Tour', 'Country', 'Place', function($scope, Tour, Country, Place){
 
   $scope.tours = Tour.query();
   $scope.countries = Country.query();
+  $scope.places = Place.query();
 
   $scope.hiddenForm = true;
 
@@ -25,18 +27,27 @@ angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Count
 
   clearForm();
 
-  function getCountryName(objectId){
-    return $scope.countries.find(function(e){
+  function getName(array, objectId){
+    return array.find(function(e){
       return e.objectId == objectId;
     }).name;
   }
 
-  $scope.addTour = function(newTour){
-    angular.extend(newTour.cntry, {
+  function extendTour(tour){
+    angular.extend(tour.cntry, {
       __type: 'Pointer',
       className: 'Country',
-      name: getCountryName(newTour.cntry.objectId)
-    })
+      name: getName($scope.countries,tour.cntry.objectId)
+    });
+    angular.extend(tour.place, {
+      __type: 'Pointer',
+      className: 'Place',
+      name: getName($scope.places, tour.place.objectId)
+    });
+  }
+
+  $scope.addTour = function(newTour){
+    extendTour(newTour);
     new Tour(newTour).$save().then(
       function(tour){
         var tourFromServer = angular.extend(tour, newTour);
@@ -64,11 +75,7 @@ angular.module('tnTour').controller('ToursController', ['$scope', 'Tour', 'Count
   }
 
   $scope.saveTour = function(tour){
-    angular.extend(tour.draft.cntry, {
-      __type: 'Pointer',
-      className: 'Country',
-      name: getCountryName(tour.draft.cntry.objectId)
-    })
+    extendTour(tour.draft);
     new Tour(tour.draft).$update().then(
       function(){
         angular.copy(tour.draft, tour);
