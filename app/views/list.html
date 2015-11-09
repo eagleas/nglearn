@@ -99,7 +99,7 @@
       </div>
       <div class="col-md-2">
         <select class="form-control" ng-model="tour.draft.cntry.objectId">
-          <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
+          <option ng-repeat="country in countries" ng-value="country.objectId">{{country.name}}</option>
         </select>
       </div>
       <div class="col-md-2">
