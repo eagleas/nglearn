@@ -1,12 +1,19 @@
 <div class="row">
-  <div class=col-md-10>
+  <div class=col-md-8>
     <h2>Туры</h2>
   </div>
   <div class="col-md-2">
     <label for="country">Страна</label>
     <select class="form-control" id="country" ng-model="selectedCountry">
       <option value="" default>Все страны</option>
-      <option ng-repeat="country in countries">{{country}}</option>
+      <option ng-repeat="country in countries">{{country.name}}</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <label for="country">Место</label>
+    <select class="form-control" id="place" ng-model="selectedPlace">
+      <option value="" default>Все места</option>
+      <option ng-repeat="place in places">{{place.name}}</option>
     </select>
   </div>
 </div>
@@ -28,20 +35,32 @@
       <div class="form-group row">
         <div class="col-md-4">
           <label for="country">Страна</label>
-          <select class="form-control" id="country" ng-model="newTour.country">
-            <option ng-repeat="country in countries">{{country}}</option>
+          <select class="form-control" id="country" ng-model="newTour.cntry.objectId" required >
+            <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="place">Место</label>
+          <select class="form-control" id="place" ng-model="newTour.place.objectId" required >
+            <option ng-repeat="place in places" value="{{place.objectId}}">{{place.name}}</option>
           </select>
         </div>
       </div>
       <div class="form-group row">
         <div class="col-md-3">
           <label for="price">Цена</label>
-          <input type="text" id="price" class="form-control" ng-model="newTour.price" placeholder="Введите цену"/>
+          <input type="number" id="price" class="form-control" ng-model="newTour.price" placeholder="Введите цену"/>
         </div>
       </div>
       <div class="form-group">
           <label for="text">Описание</label>
           <textarea id="text" class="form-control" ng-model="newTour.text" placeholder="Введите описание"></textarea>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3">
+          <label for="duration">Продолжительность</label>
+          <input type="number" id="duration" class="form-control" ng-model="newTour.duration" placeholder="Дней"/>
+        </div>
       </div>
       <div class="form-group text-right">
         <button class="btn btn-primary" ng-click="addTour(newTour)">Добавить</button>
@@ -50,11 +69,13 @@
     </form>
   </div>
 </div>
-<div class="row item" ng-repeat="tour in tours | filter: {country: selectedCountry}">
+<div class="row item" ng-repeat="tour in tours | filter: {cntry: {name: selectedCountry}, place: {name: selectedPlace}}">
   <div ng-show="!tour.editMode">
     <div class="row">
       <div class="col-md-10">
-        <h3><a ng-href="/#/tours/{{tour.slug}}">{{tour.title}}</a> ({{tour.country}})</h3>
+        <a ng-href="/#/tours/{{tour.objectId}}" class="tour-title">{{tour.title}}</a>
+        <span class="label-country" >{{tour.cntry.name}}</span>
+        <span class="label-place" ng-if="tour.place">{{tour.place.name}}</span>
       </div>
       <div class="col-md-2 price text-right">
         <h3>{{tour.price}} руб.</h3>
@@ -64,23 +85,30 @@
       <div class="col-md-12">{{tour.text}}</div>
     </div>
     <div class="row text-right" ng-if="admFlag">
-      <div class="col-md-8"></div>
-      <div class="col-md-2"><a ng-click="editTour(tour)">Редактировать</a></div>
+      <div class="col-md-8 text-left">
+        <span class="duration">Дней: {{tour.duration}}</span>
+      </div>
+      <div class="col-md-2" ><a ng-click="editTour(tour)">Редактировать</a></div>
       <div class="col-md-2"><a ng-click="deleteTour(tour)">Удалить</a></div>
     </div>
   </div>
   <div ng-show="tour.editMode">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-6">
         <input type="text" class="form-control input-large" ng-model="tour.draft.title" />
       </div>
       <div class="col-md-2">
-        <select class="form-control input-large" ng-model="tour.draft.country">
-          <option ng-repeat="country in countries">{{country}}</option>
+        <select class="form-control" ng-model="tour.draft.cntry.objectId">
+          <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select class="form-control" ng-model="tour.draft.place.objectId">
+          <option ng-repeat="place in places" value="{{place.objectId}}">{{place.name}}</option>
         </select>
       </div>
       <div class="col-md-2 price text-right">
-        <input type="text" class="form-control input-large" ng-model="tour.draft.price" />
+        <input type="number" class="form-control input-large" ng-model="tour.draft.price" />
       </div>
     </div>
     <div class="row">
@@ -89,7 +117,9 @@
       </div>
     </div>
     <div class="row form-group text-right">
-      <div class="col-md-8"></div>
+      <div class="col-md-8 text-left">
+        <input type="number" class="form-control" ng-model="tour.draft.duration" />
+      </div>
       <div class="col-md-2">
         <button class="btn btn-primary" ng-click="saveTour(tour)">Сохранить</button>
       </div>

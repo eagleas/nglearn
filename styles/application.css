@@ -1,0 +1,63 @@
+body {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.container {
+  padding: 15px 100px;
+}
+
+h1.title a {
+  text-decoration: none;
+}
+
+.item {
+  margin-top: 10px;
+}
+
+.duration {
+  color: #ff6666
+}
+
+select.input-large {
+  font-size: 22px;
+}
+.input-large {
+  font-size: 24px;
+}
+
+input[type="number"].input-large {
+  font-size: 18px;
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+}
+
+.edit-form {
+  padding-top: 10px;
+}
+
+.tour-title {
+  font-size: 24px;
+  margin-right: 20px;
+}
+
+.label-country {
+  font-size: 16px;
+  color: #fff;
+  background-color: #00abeb;
+  vertical-align: top;
+  padding: 0 20px;
+  border-radius: 3px;
+}
+
+.label-place {
+  font-size: 16px;
+  color: #fff;
+  background-color: #ff6666;
+  vertical-align: top;
+  padding: 0 20px;
+  border-radius: 3px;
+}
+
