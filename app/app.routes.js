@@ -1,41 +1,34 @@
-angular.module('tnTour', ['ngRoute', 'ngResource'])
-
+angular.module('tn-routing', ['ngRoute', 'ngResource'])
   .config(function($routeProvider, $locationProvider, $httpProvider){
     $routeProvider
     .when('/', {
-      templateUrl: "app/views/list.html",
+      templateUrl: "app/components/tour/index.html",
       controller: 'ToursController',
     })
     .when('/tours/:objectId', {
-      templateUrl: 'app/views/tour.html',
+      templateUrl: 'app/components/tour/tour.html',
       controller: 'TourController'
     })
     .when('/adm/tours', {
-      templateUrl: "app/views/list.html",
+      templateUrl: "app/components/tour/index.html",
       controller: 'ToursController',
       admFlag: true,
     })
     .when('/adm/countries', {
-      templateUrl: 'app/views/countries.html',
+      templateUrl: 'app/components/country/countries.html',
       controller: 'CountriesController',
       admFlag: true
     })
     .when('/adm/places', {
-      templateUrl: 'app/views/places.html',
+      templateUrl: 'app/components/place/places.html',
       controller: 'PlacesController',
       admFlag: true
     })
     .otherwise({
       redirectTo: '/'
     })
-
-    $locationProvider.html5Mode(true);
-
-    $httpProvider.defaults.headers.common = {
-      'X-Parse-Application-Id': 'Pb2jFmiCyCOKDPr0JIQBFYlduDtlPaqJ8A1oFYWz',
-      'X-Parse-REST-API-Key': 'uK7LoJdIifGCLMhZJ3BS0YS5FpXwNHwIreKUiPSC'
-    }
   })
+
   .run(function($rootScope, $route, $location){
     $rootScope.$on("$locationChangeSuccess", function(){
       var path = $location.path();
@@ -47,4 +40,3 @@ angular.module('tnTour', ['ngRoute', 'ngResource'])
       }
     });
   });
-

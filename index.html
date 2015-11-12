@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Турагенство</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/styles/application.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/css/app.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.min.js"></script>
@@ -21,13 +21,14 @@
       </div>
       <ng-view></ng-view>
     </div>
-    <script src="/app/app.js"></script>
-    <script src="/app/models/country.js"></script>
-    <script src="/app/controllers/countries_controller.js"></script>
-    <script src="/app/models/place.js"></script>
-    <script src="/app/controllers/places_controller.js"></script>
-    <script src="/app/models/tour.js"></script>
-    <script src="/app/controllers/tours_controller.js"></script>
-    <script src="/app/controllers/tour_controller.js"></script>
+    <script src="/app/app.module.js"></script>
+    <script src="/app/app.routes.js"></script>
+    <script src="/app/components/country/country.js"></script>
+    <script src="/app/components/country/countriesController.js"></script>
+    <script src="/app/components/place/place.js"></script>
+    <script src="/app/components/place/placesController.js"></script>
+    <script src="/app/components/tour/tour.js"></script>
+    <script src="/app/components/tour/toursController.js"></script>
+    <script src="/app/components/tour/tourController.js"></script>
   </body>
 </html>
