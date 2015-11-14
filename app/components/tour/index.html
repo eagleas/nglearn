@@ -4,16 +4,16 @@
   </div>
   <div class="col-md-2">
     <label for="country">Страна</label>
-    <select class="form-control" id="country" ng-model="selectedCountry">
+    <select class="form-control" id="country" ng-model="selectedCountry"
+      ng-options="country.name for country in countries track by country.objectId">
       <option value="" default>Все страны</option>
-      <option ng-repeat="country in countries">{{country.name}}</option>
     </select>
   </div>
   <div class="col-md-2">
     <label for="country">Место</label>
-    <select class="form-control" id="place" ng-model="selectedPlace">
+    <select class="form-control" id="place" ng-model="selectedPlace"
+      ng-options="place.name for place in places | filter: {country: {objectId: selectedCountry.objectId}} track by place.objectId">
       <option value="" default>Все места</option>
-      <option ng-repeat="place in places">{{place.name}}</option>
     </select>
   </div>
 </div>
@@ -35,7 +35,7 @@
       <div class="form-group row">
         <div class="col-md-4">
           <label for="country">Страна</label>
-          <select class="form-control" id="country" ng-model="newTour.cntry.objectId" required >
+          <select class="form-control" id="country" ng-model="newTour.country.objectId" required >
             <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
           </select>
         </div>
@@ -69,12 +69,12 @@
     </form>
   </div>
 </div>
-<div class="row item" ng-repeat="tour in tours | filter: {cntry: {name: selectedCountry}, place: {name: selectedPlace}}">
+<div class="row item" ng-repeat="tour in tours | filter: {country: {objectId: selectedCountry.objectId}, place: {objectId: selectedPlace.objectId}}">
   <div ng-show="!tour.editMode">
     <div class="row">
       <div class="col-md-10">
         <a ng-href="/#/tours/{{tour.objectId}}" class="tour-title">{{tour.title}}</a>
-        <span class="label-country" >{{tour.cntry.name}}</span>
+        <span class="label-country" >{{tour.country.name}}</span>
         <span class="label-place" ng-if="tour.place">{{tour.place.name}}</span>
       </div>
       <div class="col-md-2 price text-right">
@@ -98,13 +98,13 @@
         <input type="text" class="form-control input-large" ng-model="tour.draft.title" />
       </div>
       <div class="col-md-2">
-        <select class="form-control" ng-model="tour.draft.cntry.objectId">
-          <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
+        <select class="form-control" ng-model="tour.draft.country"
+          ng-options="country.name for country in countries track by country.objectId">
         </select>
       </div>
       <div class="col-md-2">
-        <select class="form-control" ng-model="tour.draft.place.objectId">
-          <option ng-repeat="place in places" value="{{place.objectId}}">{{place.name}}</option>
+        <select class="form-control" ng-model="tour.draft.place"
+          ng-options="place.name for place in places | filter: {country: {objectId: tour.draft.country.objectId}} track by place.objectId">
         </select>
       </div>
       <div class="col-md-2 price text-right">

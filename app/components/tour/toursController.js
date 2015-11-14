@@ -2,9 +2,10 @@
 angular.module('tnTour').controller('ToursController',
   ['$scope', 'Tour', 'Country', 'Place', function($scope, Tour, Country, Place){
 
-  $scope.tours = Tour.query();
+
   $scope.countries = Country.query();
   $scope.places = Place.query();
+  $scope.tours = Tour.query();
 
   $scope.hiddenForm = true;
 
@@ -22,7 +23,7 @@ angular.module('tnTour').controller('ToursController',
   }
 
   function emptyTour(){
-    return {title: null, cntry: null, price: null, duration: null, text: null};
+    return {title: null, country: null, price: null, duration: null, text: null};
   }
 
   clearForm();
@@ -34,10 +35,10 @@ angular.module('tnTour').controller('ToursController',
   }
 
   function extendTour(tour){
-    angular.extend(tour.cntry, {
+    angular.extend(tour.country, {
       __type: 'Pointer',
       className: 'Country',
-      name: getName($scope.countries,tour.cntry.objectId)
+      name: getName($scope.countries,tour.country.objectId)
     });
     angular.extend(tour.place, {
       __type: 'Pointer',

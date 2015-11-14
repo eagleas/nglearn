@@ -3,7 +3,7 @@ angular.module('tnTour')
 
     this.$get = ['$resource', function($resource){
       var Tour = $resource(
-        'https://api.parse.com/1/classes/Tour/:objectId?include=cntry,place',
+        'https://api.parse.com/1/classes/Tour/:objectId?include=country,place',
         { objectId: '@objectId' },
         {
           query: { isArray: true, transformResponse: parseResult },
