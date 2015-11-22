@@ -1,6 +1,6 @@
 
 angular.module('tnTour').controller('ToursController',
-  ['$scope', 'Tour', 'Country', 'Place', function($scope, Tour, Country, Place){
+  ['$scope', 'common', 'Tour', 'Country', 'Place', function($scope, common, Tour, Country, Place){
 
 
   $scope.countries = Country.query();
@@ -28,22 +28,16 @@ angular.module('tnTour').controller('ToursController',
 
   clearForm();
 
-  function getName(array, objectId){
-    return array.find(function(e){
-      return e.objectId == objectId;
-    }).name;
-  }
-
   function extendTour(tour){
     angular.extend(tour.country, {
       __type: 'Pointer',
       className: 'Country',
-      name: getName($scope.countries,tour.country.objectId)
+      name: common.getName($scope.countries,tour.country.objectId)
     });
     angular.extend(tour.place, {
       __type: 'Pointer',
       className: 'Place',
-      name: getName($scope.places, tour.place.objectId)
+      name: common.getName($scope.places, tour.place.objectId)
     });
   }
 

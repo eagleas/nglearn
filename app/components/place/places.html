@@ -1,24 +1,45 @@
 <h2>Места</h2>
+<!-- Форма добавления места -->
 <div class="row vertical-align edit-form">
   <div class="col-md-4">
-    <input type="text" class="form-control input-large" ng-model="newPlace.name" />
+    <label for="name">Название места</label>
+    <input type="text" name="name" class="form-control input-large" ng-model="newPlace.name" />
+  </div>
+  <div class="col-md-2">
+    <label for="country">Страна</label>
+    <select class="form-control" id="country" ng-model="newPlace.country"
+      ng-options="country.name for country in countries track by country.objectId">
+    </select>
   </div>
   <div class="col-md-2">
     <button class="btn btn-primary" ng-click="addPlace()">Добавить</button>
   </div>
 </div>
-<div ng-repeat="place in countries track by $index">
+<!-- Список мест -->
+<div ng-repeat="place in places track by $index">
   <div ng-hide="place.draft">
     <div class="row vertical-align">
-      <div class="col-md-4"><h3>{{place.name}}</a></h3> </div>
+      <div class="col-md-6">
+        <h3>{{place.name}}
+          <span class="label-country">{{place.country.name}}</span>
+        </h3>
+      </div>
       <div class="col-md-2"><a ng-click="editPlace(place)">Редактировать</a></div>
       <div class="col-md-2"><a ng-click="deletePlace(place)">Удалить</a></div>
     </div>
   </div>
+  <!-- Форма редактирования -->
   <div ng-show="place.draft">
     <div class="row vertical-align edit-form">
       <div class="col-md-4">
-        <input type="text" class="form-control input-large" ng-model="place.draft.name" />
+        <label for="name">Название места</label>
+        <input name="name" type="text" class="form-control input-large" ng-model="place.draft.name" />
+      </div>
+      <div class="col-md-2">
+        <label for="country">Страна</label>
+        <select class="form-control" id="country" ng-model="place.draft.country"
+          ng-options="country.name for country in countries track by country.objectId">
+        </select>
       </div>
       <div class="col-md-2">
         <button class="btn btn-primary" ng-click="savePlace(place)">Сохранить</button>

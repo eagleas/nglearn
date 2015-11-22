@@ -1,9 +1,9 @@
 angular.module('tnTour')
-  .provider('Place', function(){
+  .provider('Hotel', function(){
 
     this.$get = ['$resource', function($resource){
-      var Place = $resource(
-        'https://api.parse.com/1/classes/Place/:objectId?include=country',
+      var Hotel = $resource(
+        'https://api.parse.com/1/classes/Hotel/:objectId',
         { objectId: '@objectId'},
         {
           query: { isArray: true, transformResponse: parseResult },
@@ -13,12 +13,12 @@ angular.module('tnTour')
 
       function parseResult(response){
         data = angular.fromJson(response);
-        var places = data.results;
-        places.sort(function(a, b){ return a.name.localeCompare(b.name) });
-        return places;
+        var hotels = data.results;
+        hotels.sort(function(a, b){ return a.title.localeCompare(b.title) });
+        return hotels;
       }
 
-      return Place;
+      return Hotel;
     }];
 
   });

@@ -1,4 +1,4 @@
-angular.module('tnTour', ['ngRoute', 'ngResource', 'tn-routing'])
+angular.module('tnTour', ['ngRoute', 'ngResource', 'tn-routing', 'shared'])
 
   .config(function($locationProvider, $httpProvider){
     $locationProvider.html5Mode(true);
@@ -8,4 +8,5 @@ angular.module('tnTour', ['ngRoute', 'ngResource', 'tn-routing'])
       'X-Parse-REST-API-Key': 'uK7LoJdIifGCLMhZJ3BS0YS5FpXwNHwIreKUiPSC'
     }
   })
+
 

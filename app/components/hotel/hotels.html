@@ -1,0 +1,107 @@
+<div class="row">
+  <div class=col-md-8>
+    <h2>Отели</h2>
+  </div>
+</div>
+<div class="row edit-form" ng-if="admFlag">
+  <button class="btn btn-primary" ng-disabled="!hiddenForm" ng-click="showForm()">Добавить отель</button>
+</div>
+<div class="row">
+  <!-- Форма добавления отеля -->
+  <form ng-hide="hiddenForm">
+    <div class="col-md-2">
+      <h3>Добавление отеля</h3>
+    </div>
+    <div class="col-md-10">
+      <div class="form-group row">
+        <div class="col-md-6">
+          <label for="title">Название отеля</label>
+          <input type="text" id="title" class="form-control" ng-model="newHotel.title" placeholder="Введите название" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-4">
+          <label for="country">Страна</label>
+          <select class="form-control" id="country" ng-model="newHotel.country"
+            ng-options="country.name for country in countries track by country.objectId">
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="place">Место</label>
+          <select class="form-control" id="place" ng-model="newHotel.place"
+            ng-options="place.name for place in places | filter: {country: {objectId: newHotel.country.objectId}} track by place.objectId">
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3">
+          <label for="stars">Количество звезд</label>
+          <input type="number" id="starss" class="form-control" ng-model="newHotel.stars" placeholder="Звездность 1-5"/>
+        </div>
+      </div>
+      <div class="form-group text-right">
+        <button class="btn btn-primary" ng-click="addHotel(newHotel)">Добавить</button>
+        <button class="btn btn-primary" ng-click="hideForm()">Отменить</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Список отелей -->
+<div class="row item" ng-repeat="hotel in hotels">
+  <div ng-show="!hotel.editMode">
+    <div class="row">
+      <div class="col-md-10">
+        <h3>{{hotel.title}}
+          <span class="label-country">{{hotel.country.name}}</span>
+          <span class="label-place">{{hotel.place.name}}</span>
+        </h3>
+      </div>
+      <div class="col-md-2 stars text-right">
+        <h3>Звезд: {{hotel.stars}}</h3>
+      </div>
+    </div>
+    <div class="row text-right" ng-if="admFlag">
+      <div class="col-md-8 text-left">
+      </div>
+      <div class="col-md-2" ><a ng-click="editHotel(hotel)">Редактировать</a></div>
+      <div class="col-md-2"><a ng-click="deleteHotel(hotel)">Удалить</a></div>
+    </div>
+  </div>
+  <!-- Форма редактирования отеля -->
+  <div ng-show="hotel.editMode">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="name">Название отеля</label>
+        <input type="text" name="name" class="form-control input-large" ng-model="hotel.draft.title" />
+      </div>
+      <div class="col-md-2">
+        <label for="country">Страна</label>
+        <select class="form-control" name="country" ng-model="hotel.draft.country"
+          ng-options="country.name for country in countries track by country.objectId">
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="place">Место</label>
+        <select name="place" class="form-control" ng-model="hotel.draft.place"
+          ng-options="place.name for place in places | filter: {country: {objectId: hotel.draft.country.objectId}} track by place.objectId">
+        </select>
+      </div>
+      <div class="col-md-2 price text-right">
+        <label for="stars">Звезды</label>
+        <input type="number" name="stars" class="form-control input-large" ng-model="hotel.draft.stars" />
+      </div>
+    </div>
+    <div class="row">
+    </div>
+    <div class="row form-group text-right">
+      <div class="col-md-8">
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" ng-click="saveHotel(hotel)">Сохранить</button>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" ng-click="cancelEdit(hotel)">Отменить</button>
+      </div>
+    </div>
+  </div>
+</div>

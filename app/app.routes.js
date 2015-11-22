@@ -24,6 +24,11 @@ angular.module('tn-routing', ['ngRoute', 'ngResource'])
       controller: 'PlacesController',
       admFlag: true
     })
+    .when('/adm/hotels', {
+      templateUrl: 'app/components/hotel/hotels.html',
+      controller: 'HotelsController',
+      admFlag: true
+    })
     .otherwise({
       redirectTo: '/'
     })

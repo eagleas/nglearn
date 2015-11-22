@@ -1,15 +1,26 @@
 
-angular.module('tnTour').controller('PlacesController', ['$scope', 'Place', function($scope, Place){
+angular.module('tnTour').controller('PlacesController',
+  ['$scope', 'common', 'Place', 'Country', function($scope, common, Place, Country){
 
-  $scope.countries = Place.query();
+  $scope.countries = Country.query();
+  $scope.places = Place.query();
   $scope.newPlace = null;
 
+  function extendPlace(place){
+    angular.extend(place.country, {
+      __type: 'Pointer',
+      className: 'Country',
+      name: common.getName($scope.countries, place.country.objectId),
+    });
+  }
+
   function insertPlace(place){
-    $scope.countries.push(place);
-    $scope.countries.sort(function(a, b){ return a.name.localeCompare(b.name) });
+    $scope.places.push(place);
+    $scope.places.sort(function(a, b){ return a.name.localeCompare(b.name) });
   }
 
   $scope.addPlace = function(){
+    extendPlace($scope.newPlace);
     new Place($scope.newPlace).$save().then(
       function(place){
         var placeFromServer = angular.extend(place, $scope.newPlace);
@@ -22,9 +33,9 @@ angular.module('tnTour').controller('PlacesController', ['$scope', 'Place', func
   $scope.deletePlace = function(place){
     new Place(place).$delete().then(
       function(){
-        var index = $scope.countries.indexOf(place);
+        var index = $scope.places.indexOf(place);
         if (index > -1) {
-          $scope.countries.splice(index, 1);
+          $scope.places.splice(index, 1);
         }
       }
     );
@@ -36,9 +47,10 @@ angular.module('tnTour').controller('PlacesController', ['$scope', 'Place', func
   }
 
   $scope.savePlace = function(place){
+    extendPlace(place.draft);
     new Place(place.draft).$update().then( function(){
       angular.copy(place.draft, place);
-      $scope.countries.sort(function(a, b){ return a.name.localeCompare(b.name) });
+      $scope.places.sort(function(a, b){ return a.name.localeCompare(b.name) });
     })
   }
 
