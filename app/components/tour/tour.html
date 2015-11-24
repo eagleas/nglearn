@@ -4,17 +4,21 @@
   </div>
   <div class="col-md-10">
     <div class="row">
-      <div class="col-md-9">
+      <div class="col-md-10">
         <span class="tour-title">{{tour.title}}</span>
         <span class="label-country" >{{tour.country.name}}</span>
         <span class="label-place" >{{tour.place.name}}</span>
       </div>
-      <div class="col-md-3 price text-right">
-        <h3>{{tour.price}} руб.</h3>
-      </div>
+      <div class="col-md-2 price text-right">{{tour.price}} руб.</div>
     </div>
     <div class="row">
       <div class="col-md-12">{{tour.text}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 hotel">
+        > {{tour.hotel.name}}
+        <span class="label-stars">Звезд: {{tour.hotel.stars}}</span>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-2 duration">Дней: {{tour.duration}}</div>

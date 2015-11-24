@@ -1,10 +1,11 @@
 
 angular.module('tnTour').controller('ToursController',
-  ['$scope', 'common', 'Tour', 'Country', 'Place', function($scope, common, Tour, Country, Place){
-
+  ['$scope', 'common', 'Tour', 'Country', 'Place', 'Hotel',
+    function($scope, common, Tour, Country, Place, Hotel){
 
   $scope.countries = Country.query();
   $scope.places = Place.query();
+  $scope.hotels = Hotel.query();
   $scope.tours = Tour.query();
 
   $scope.hiddenForm = true;
@@ -38,6 +39,11 @@ angular.module('tnTour').controller('ToursController',
       __type: 'Pointer',
       className: 'Place',
       name: common.getName($scope.places, tour.place.objectId)
+    });
+    angular.extend(tour.hotel, {
+      __type: 'Pointer',
+      className: 'Hotel',
+      name: common.getName($scope.hotels, tour.hotel.objectId)
     });
   }
 
