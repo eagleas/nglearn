@@ -15,8 +15,8 @@
     <div class="col-md-10">
       <div class="form-group row">
         <div class="col-md-6">
-          <label for="title">Название отеля</label>
-          <input type="text" id="title" class="form-control" ng-model="newHotel.title" placeholder="Введите название" />
+          <label for="name">Название отеля</label>
+          <input type="text" name="name" class="form-control" ng-model="newHotel.name" placeholder="Введите название" />
         </div>
       </div>
       <div class="form-group row">
@@ -51,7 +51,7 @@
   <div ng-show="!hotel.editMode">
     <div class="row">
       <div class="col-md-10">
-        <h3>{{hotel.title}}
+        <h3>{{hotel.name}}
           <span class="label-country">{{hotel.country.name}}</span>
           <span class="label-place">{{hotel.place.name}}</span>
         </h3>
@@ -72,7 +72,7 @@
     <div class="row">
       <div class="col-md-6">
         <label for="name">Название отеля</label>
-        <input type="text" name="name" class="form-control input-large" ng-model="hotel.draft.title" />
+        <input type="text" name="name" class="form-control input-large" ng-model="hotel.draft.name" />
       </div>
       <div class="col-md-2">
         <label for="country">Страна</label>

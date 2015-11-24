@@ -35,7 +35,7 @@ angular.module('tnTour').controller('HotelsController',
   }
 
   function emptyHotel(){
-    return {title: null, country: null, price: null, duration: null, text: null};
+    return {name: null, place: null};
   }
 
   clearForm();

@@ -14,7 +14,7 @@ angular.module('tnTour')
       function parseResult(response){
         data = angular.fromJson(response);
         var hotels = data.results;
-        hotels.sort(function(a, b){ return a.title.localeCompare(b.title) });
+        hotels.sort(function(a, b){ return a.name.localeCompare(b.name) });
         return hotels;
       }
 
