@@ -1,7 +1,5 @@
 
-angular.module('tnTour').controller('ToursController',
-  ['$scope', 'common', 'Tour', 'Country', 'Place', 'Hotel',
-    function($scope, common, Tour, Country, Place, Hotel){
+angular.module('tnTour').controller('ToursController', function($scope, appHelper, Tour, Country, Place, Hotel){
 
   $scope.countries = Country.query();
   $scope.places = Place.query();
@@ -29,26 +27,17 @@ angular.module('tnTour').controller('ToursController',
 
   clearForm();
 
-  function extendTour(tour){
-    angular.extend(tour.country, {
-      __type: 'Pointer',
-      className: 'Country',
-      name: common.getName($scope.countries,tour.country.objectId)
-    });
-    angular.extend(tour.place, {
-      __type: 'Pointer',
-      className: 'Place',
-      name: common.getName($scope.places, tour.place.objectId)
-    });
-    angular.extend(tour.hotel, {
-      __type: 'Pointer',
-      className: 'Hotel',
-      name: common.getName($scope.hotels, tour.hotel.objectId)
-    });
+  function addPointers(tour){
+    angular.extend(tour.country,
+      appHelper.createPointer('Country', $scope.countries, tour.country.objectId));
+    angular.extend(tour.place,
+      appHelper.createPointer('Place', $scope.places, tour.place.objectId));
+    angular.extend(tour.hotel,
+      appHelper.createPointer('Hotel', $scope.hotels, tour.hotel.objectId));
   }
 
   $scope.addTour = function(newTour){
-    extendTour(newTour);
+    addPointers(newTour);
     new Tour(newTour).$save().then(
       function(tour){
         var tourFromServer = angular.extend(tour, newTour);
@@ -76,7 +65,7 @@ angular.module('tnTour').controller('ToursController',
   }
 
   $scope.saveTour = function(tour){
-    extendTour(tour.draft);
+    addPointers(tour.draft);
     new Tour(tour.draft).$update().then(
       function(){
         angular.copy(tour.draft, tour);
@@ -88,4 +77,4 @@ angular.module('tnTour').controller('ToursController',
     tour.editMode = false;
   }
 
-}]);
+});

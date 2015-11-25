@@ -1,9 +1,13 @@
-angular.module('shared', []).factory('common', function() {
+angular.module('tnTour').factory('appHelper', function(){
   return {
-    getName: function (array, objectId){
-      return array.find(function(e){
-        return e.objectId == objectId;
-      }).name;
+    createPointer: function(className, arr, objId){
+      return {
+        __type: 'Pointer',
+        className: className,
+        name: _.find(arr, 'objectId', objId).name
+      }
     }
   }
 })
+
+

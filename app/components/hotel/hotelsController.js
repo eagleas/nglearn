@@ -1,6 +1,5 @@
 
-angular.module('tnTour').controller('HotelsController',
-  ['$scope', '$q', '$filter', 'common', 'Hotel', 'Country', 'Place', function($scope, $q, $filter, common, Hotel, Country, Place){
+angular.module('tnTour').controller('HotelsController', function($scope, $q, $filter, appHelper, Hotel, Country, Place){
 
   $scope.countries = Country.query();
   $scope.places = Place.query();
@@ -41,16 +40,13 @@ angular.module('tnTour').controller('HotelsController',
   clearForm();
 
 
-  function extendHotel(hotel){
-    angular.extend(hotel.place, {
-      __type: 'Pointer',
-      className: 'Place',
-      name: common.getName($scope.places, hotel.place.objectId)
-    });
+  function addPointer(hotel){
+    angular.extend(hotel.place,
+      appHelper.createPointer('Place', $scope.places, hotel.place.objectId));
   }
 
   $scope.addHotel = function(newHotel){
-    extendHotel(newHotel);
+    addPointer(newHotel);
     new Hotel(newHotel).$save().then(
       function(hotel){
         var hotelFromServer = angular.extend(hotel, newHotel);
@@ -78,7 +74,7 @@ angular.module('tnTour').controller('HotelsController',
   }
 
   $scope.saveHotel = function(hotel){
-    extendHotel(hotel.draft);
+    addPointer(hotel.draft);
     new Hotel(hotel.draft).$update().then(
       function(){
         angular.copy(hotel.draft, hotel);
@@ -90,4 +86,4 @@ angular.module('tnTour').controller('HotelsController',
     hotel.editMode = false;
   }
 
-}]);
+});
