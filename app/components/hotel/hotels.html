@@ -15,33 +15,33 @@
     <div class="col-md-10">
       <div class="form-group row">
         <div class="col-md-6">
-          <label for="name">Название отеля</label>
-          <input type="text" name="name" class="form-control" ng-model="newHotel.name" placeholder="Введите название" />
+          <label for="newHotel_name" accesskey="Н"><u>Н</u>азвание отеля</label>
+          <input type="text" id="newHotel_name" class="form-control" ng-model="newHotel.name" placeholder="Введите название" />
         </div>
       </div>
       <div class="form-group row">
         <div class="col-md-4">
-          <label for="country">Страна</label>
-          <select class="form-control" id="country" ng-model="newHotel.country"
+          <label for="newHotel_country" accesskey="С"><u>С</u>трана</label>
+          <select class="form-control" id="newHotel_country" ng-model="newHotel.country"
             ng-options="country.name for country in countries track by country.objectId">
           </select>
         </div>
         <div class="col-md-4">
-          <label for="place">Место</label>
-          <select class="form-control" id="place" ng-model="newHotel.place"
+          <label for="newHotel_place" accesskey="М"><u>М</u>есто</label>
+          <select class="form-control" id="newHotel_place" ng-model="newHotel.place"
             ng-options="place.name for place in places | filter: {country: {objectId: newHotel.country.objectId}} track by place.objectId">
           </select>
         </div>
       </div>
       <div class="form-group row">
         <div class="col-md-3">
-          <label for="stars">Количество звезд</label>
-          <input type="number" id="starss" class="form-control" ng-model="newHotel.stars" placeholder="Звездность 1-5"/>
+          <label for="newHotel_stars" accesskey="З">Количество <u>з</u>везд</label>
+          <input type="number" id="newHotel_stars" class="form-control" ng-model="newHotel.stars" placeholder="Звездность 1-5"/>
         </div>
       </div>
       <div class="form-group text-right">
-        <button class="btn btn-primary" ng-click="addHotel(newHotel)">Добавить</button>
-        <button class="btn btn-primary" ng-click="hideForm()">Отменить</button>
+        <button class="btn btn-primary" ng-click="addHotel(newHotel)" accesskey="Д"><u>Д</u>обавить</button>
+        <button class="btn btn-primary" ng-click="hideForm()" accesskey="О"><u>О</u>тменить</button>
       </div>
     </form>
   </div>
@@ -71,24 +71,24 @@
   <div ng-show="hotel.editMode">
     <div class="row">
       <div class="col-md-6">
-        <label for="name">Название отеля</label>
-        <input type="text" name="name" class="form-control input-large" ng-model="hotel.draft.name" />
+        <label for="name_{{hotel.objectId}}">Название отеля</label>
+        <input type="text" id="name_{{hotel.objectId}}" class="form-control input-large" ng-model="hotel.draft.name" />
       </div>
       <div class="col-md-2">
-        <label for="country">Страна</label>
-        <select class="form-control" name="country" ng-model="hotel.draft.country"
+        <label for="country_{{hotel.objectId}}">Страна</label>
+        <select class="form-control" id="country_{{hotel.objectId}}" ng-model="hotel.draft.country"
           ng-options="country.name for country in countries track by country.objectId">
         </select>
       </div>
       <div class="col-md-2">
-        <label for="place">Место</label>
-        <select name="place" class="form-control" ng-model="hotel.draft.place"
+        <label for="place_{{hotel.objectId}}">Место</label>
+        <select id="place_{{hotel.objectId}}" class="form-control" ng-model="hotel.draft.place"
           ng-options="place.name for place in places | filter: {country: {objectId: hotel.draft.country.objectId}} track by place.objectId">
         </select>
       </div>
-      <div class="col-md-2 price text-right">
-        <label for="stars">Звезды</label>
-        <input type="number" name="stars" class="form-control input-large" ng-model="hotel.draft.stars" />
+      <div class="col-md-2 text-right">
+        <label for="stars_{{hotel.objectId}}">Звезды</label>
+        <input type="number" id="stars_{{hotel.objectId}}" class="form-control input-large" ng-model="hotel.draft.stars" />
       </div>
     </div>
     <div class="row">
