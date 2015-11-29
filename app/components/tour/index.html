@@ -2,24 +2,27 @@
   <div class=col-md-8>
     <h2>Туры</h2>
   </div>
+  <!-- Фильтр по стране и месту -->
   <div class="col-md-2">
     <label for="country">Страна</label>
-    <select class="form-control" id="country" ng-model="selectedCountry">
+    <select class="form-control" id="country" ng-model="selectedCountry"
+      ng-options="country.name for country in countries track by country.objectId">
       <option value="" default>Все страны</option>
-      <option ng-repeat="country in countries">{{country.name}}</option>
     </select>
   </div>
   <div class="col-md-2">
     <label for="country">Место</label>
-    <select class="form-control" id="place" ng-model="selectedPlace">
+    <select class="form-control" id="place" ng-model="selectedPlace"
+      ng-options="place.name for place in places | filter: {country: {objectId: selectedCountry.objectId}} track by place.objectId">
       <option value="" default>Все места</option>
-      <option ng-repeat="place in places">{{place.name}}</option>
     </select>
   </div>
 </div>
+<!-- Кнопка Добавить тур -->
 <div class="row edit-form" ng-if="admFlag">
   <button class="btn btn-primary" ng-disabled="!hiddenForm" ng-click="showForm()">Добавить тур</button>
 </div>
+<!-- Форма добавления тура -->
 <div class="row">
   <form ng-hide="hiddenForm">
     <div class="col-md-2">
@@ -35,14 +38,20 @@
       <div class="form-group row">
         <div class="col-md-4">
           <label for="country">Страна</label>
-          <select class="form-control" id="country" ng-model="newTour.cntry.objectId" required >
-            <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
+          <select class="form-control" id="country" ng-model="newTour.country"
+            ng-options="country.name for country in countries track by country.objectId">
           </select>
         </div>
         <div class="col-md-4">
           <label for="place">Место</label>
-          <select class="form-control" id="place" ng-model="newTour.place.objectId" required >
-            <option ng-repeat="place in places" value="{{place.objectId}}">{{place.name}}</option>
+          <select class="form-control" id="place" ng-model="newTour.place"
+            ng-options="place.name for place in places | filter: {country: {objectId: newTour.country.objectId}} track by place.objectId">
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="hotel">Отель</label>
+          <select class="form-control" id="hotel" ng-model="newTour.hotel"
+            ng-options="hotel.name for hotel in hotels | filter: {place: {objectId: newTour.place.objectId}} track by hotel.objectId">
           </select>
         </div>
       </div>
@@ -69,20 +78,27 @@
     </form>
   </div>
 </div>
-<div class="row item" ng-repeat="tour in tours | filter: {cntry: {name: selectedCountry}, place: {name: selectedPlace}}">
-  <div ng-show="!tour.editMode">
+<!-- Список туров -->
+<div class="row item" ng-repeat="tour in tours | filter: {country: {objectId: selectedCountry.objectId}, place: {objectId: selectedPlace.objectId}}">
+  <div class="row-tour" ng-show="!tour.editMode">
     <div class="row">
       <div class="col-md-10">
         <a ng-href="/#/tours/{{tour.objectId}}" class="tour-title">{{tour.title}}</a>
-        <span class="label-country" >{{tour.cntry.name}}</span>
+        <span class="label-country" >{{tour.country.name}}</span>
         <span class="label-place" ng-if="tour.place">{{tour.place.name}}</span>
       </div>
       <div class="col-md-2 price text-right">
-        <h3>{{tour.price}} руб.</h3>
+        {{tour.price}} руб.
       </div>
     </div>
     <div class="row" ng-if="admFlag">
-      <div class="col-md-12">{{tour.text}}</div>
+      <div class="col-md-12 tour-desc">{{tour.text}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 hotel">
+        > {{tour.hotel.name}}
+        <span class="label-stars">Звезд: {{tour.hotel.stars}}</span>
+      </div>
     </div>
     <div class="row text-right" ng-if="admFlag">
       <div class="col-md-8 text-left">
@@ -92,19 +108,20 @@
       <div class="col-md-2"><a ng-click="deleteTour(tour)">Удалить</a></div>
     </div>
   </div>
+  <!-- Редактирование тура -->
   <div ng-show="tour.editMode">
     <div class="row">
       <div class="col-md-6">
         <input type="text" class="form-control input-large" ng-model="tour.draft.title" />
       </div>
       <div class="col-md-2">
-        <select class="form-control" ng-model="tour.draft.cntry.objectId">
-          <option ng-repeat="country in countries" value="{{country.objectId}}">{{country.name}}</option>
+        <select class="form-control" ng-model="tour.draft.country"
+          ng-options="country.name for country in countries track by country.objectId">
         </select>
       </div>
       <div class="col-md-2">
-        <select class="form-control" ng-model="tour.draft.place.objectId">
-          <option ng-repeat="place in places" value="{{place.objectId}}">{{place.name}}</option>
+        <select class="form-control" ng-model="tour.draft.place"
+          ng-options="place.name for place in places | filter: {country: {objectId: tour.draft.country.objectId}} track by place.objectId">
         </select>
       </div>
       <div class="col-md-2 price text-right">
@@ -114,6 +131,13 @@
     <div class="row">
       <div class="col-md-12">
         <textarea id="text" class="form-control" ng-model="tour.draft.text"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <select class="form-control" ng-model="tour.draft.hotel"
+          ng-options="hotel.name for hotel in hotels | filter: {place: {objectId: tour.draft.place.objectId}} track by hotel.objectId">
+        </select>
       </div>
     </div>
     <div class="row form-group text-right">

@@ -1,4 +1,4 @@
-angular.module('tnTour', ['ngRoute', 'ngResource', 'tn-routing'])
+angular.module('tnTour', ['lodash', 'ngRoute', 'ngResource', 'tn-routing'])
 
   .config(function($locationProvider, $httpProvider){
     $locationProvider.html5Mode(true);

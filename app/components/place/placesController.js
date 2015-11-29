@@ -1,15 +1,22 @@
 
-angular.module('tnTour').controller('PlacesController', ['$scope', 'Place', function($scope, Place){
+angular.module('tnTour').controller('PlacesController', function($scope, apiDataHelper, Place, Country){
 
-  $scope.countries = Place.query();
+  $scope.countries = Country.query();
+  $scope.places = Place.query();
   $scope.newPlace = null;
 
+  function addPointer(place){
+    angular.extend(place.country,
+      apiDataHelper.createPointer('Country', $scope.countries, place.country.objectId));
+  }
+
   function insertPlace(place){
-    $scope.countries.push(place);
-    $scope.countries.sort(function(a, b){ return a.name.localeCompare(b.name) });
+    $scope.places.push(place);
+    $scope.places.sort(function(a, b){ return a.name.localeCompare(b.name) });
   }
 
   $scope.addPlace = function(){
+    addPointer($scope.newPlace);
     new Place($scope.newPlace).$save().then(
       function(place){
         var placeFromServer = angular.extend(place, $scope.newPlace);
@@ -22,9 +29,9 @@ angular.module('tnTour').controller('PlacesController', ['$scope', 'Place', func
   $scope.deletePlace = function(place){
     new Place(place).$delete().then(
       function(){
-        var index = $scope.countries.indexOf(place);
+        var index = $scope.places.indexOf(place);
         if (index > -1) {
-          $scope.countries.splice(index, 1);
+          $scope.places.splice(index, 1);
         }
       }
     );
@@ -36,9 +43,10 @@ angular.module('tnTour').controller('PlacesController', ['$scope', 'Place', func
   }
 
   $scope.savePlace = function(place){
+    addPointer(place.draft);
     new Place(place.draft).$update().then( function(){
       angular.copy(place.draft, place);
-      $scope.countries.sort(function(a, b){ return a.name.localeCompare(b.name) });
+      $scope.places.sort(function(a, b){ return a.name.localeCompare(b.name) });
     })
   }
 
@@ -46,4 +54,4 @@ angular.module('tnTour').controller('PlacesController', ['$scope', 'Place', func
     place.draft = null;
   }
 
-}]);
+});

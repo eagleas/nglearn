@@ -1,10 +1,10 @@
 
-angular.module('tnTour').controller('ToursController',
-  ['$scope', 'Tour', 'Country', 'Place', function($scope, Tour, Country, Place){
+angular.module('tnTour').controller('ToursController', function($scope, apiDataHelper, Tour, Country, Place, Hotel){
 
-  $scope.tours = Tour.query();
   $scope.countries = Country.query();
   $scope.places = Place.query();
+  $scope.hotels = Hotel.query();
+  $scope.tours = Tour.query();
 
   $scope.hiddenForm = true;
 
@@ -22,32 +22,22 @@ angular.module('tnTour').controller('ToursController',
   }
 
   function emptyTour(){
-    return {title: null, cntry: null, price: null, duration: null, text: null};
+    return {title: null, country: null, price: null, duration: null, text: null};
   }
 
   clearForm();
 
-  function getName(array, objectId){
-    return array.find(function(e){
-      return e.objectId == objectId;
-    }).name;
-  }
-
-  function extendTour(tour){
-    angular.extend(tour.cntry, {
-      __type: 'Pointer',
-      className: 'Country',
-      name: getName($scope.countries,tour.cntry.objectId)
-    });
-    angular.extend(tour.place, {
-      __type: 'Pointer',
-      className: 'Place',
-      name: getName($scope.places, tour.place.objectId)
-    });
+  function addPointers(tour){
+    angular.extend(tour.country,
+      apiDataHelper.createPointer('Country', $scope.countries, tour.country.objectId));
+    angular.extend(tour.place,
+      apiDataHelper.createPointer('Place', $scope.places, tour.place.objectId));
+    angular.extend(tour.hotel,
+      apiDataHelper.createPointer('Hotel', $scope.hotels, tour.hotel.objectId));
   }
 
   $scope.addTour = function(newTour){
-    extendTour(newTour);
+    addPointers(newTour);
     new Tour(newTour).$save().then(
       function(tour){
         var tourFromServer = angular.extend(tour, newTour);
@@ -75,7 +65,7 @@ angular.module('tnTour').controller('ToursController',
   }
 
   $scope.saveTour = function(tour){
-    extendTour(tour.draft);
+    addPointers(tour.draft);
     new Tour(tour.draft).$update().then(
       function(){
         angular.copy(tour.draft, tour);
@@ -87,4 +77,4 @@ angular.module('tnTour').controller('ToursController',
     tour.editMode = false;
   }
 
-}]);
+});
