@@ -1,4 +1,4 @@
-angular.module('tnTour', ['ngRoute', 'ngResource', 'tn-routing'])
+angular.module('tnTour', ['lodash', 'ngRoute', 'ngResource', 'tn-routing'])
 
   .config(function($locationProvider, $httpProvider){
     $locationProvider.html5Mode(true);
@@ -8,12 +8,4 @@ angular.module('tnTour', ['ngRoute', 'ngResource', 'tn-routing'])
       'X-Parse-REST-API-Key': 'uK7LoJdIifGCLMhZJ3BS0YS5FpXwNHwIreKUiPSC'
     }
   })
-
-  // allow Lodash for use in controllers, unit tests, etc.
-  .constant('_', window._)
-  // use in views, ng-repeat="x in _.range(3)"
-  .run(function ($rootScope) {
-     $rootScope._ = window._;
-  })
-
 
