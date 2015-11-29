@@ -2,11 +2,11 @@ angular.module('tn-routing', ['ngRoute', 'ngResource'])
   .config(function($routeProvider, $locationProvider, $httpProvider){
     $routeProvider
     .when('/', {
-      templateUrl: "app/components/tour/index.html",
-      controller: 'ToursController',
+      templateUrl: "app/components/home/index.html",
+      controller: 'HomeController',
     })
     .when('/tours/:objectId', {
-      templateUrl: 'app/components/tour/tour.html',
+      templateUrl: 'app/components/home/tour.html',
       controller: 'TourController'
     })
     .when('/adm/tours', {
