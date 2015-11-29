@@ -1,5 +1,5 @@
 
-angular.module('tnTour').controller('ToursController', function($scope, appHelper, Tour, Country, Place, Hotel){
+angular.module('tnTour').controller('ToursController', function($scope, apiDataHelper, Tour, Country, Place, Hotel){
 
   $scope.countries = Country.query();
   $scope.places = Place.query();
@@ -29,11 +29,11 @@ angular.module('tnTour').controller('ToursController', function($scope, appHelpe
 
   function addPointers(tour){
     angular.extend(tour.country,
-      appHelper.createPointer('Country', $scope.countries, tour.country.objectId));
+      apiDataHelper.createPointer('Country', $scope.countries, tour.country.objectId));
     angular.extend(tour.place,
-      appHelper.createPointer('Place', $scope.places, tour.place.objectId));
+      apiDataHelper.createPointer('Place', $scope.places, tour.place.objectId));
     angular.extend(tour.hotel,
-      appHelper.createPointer('Hotel', $scope.hotels, tour.hotel.objectId));
+      apiDataHelper.createPointer('Hotel', $scope.hotels, tour.hotel.objectId));
   }
 
   $scope.addTour = function(newTour){

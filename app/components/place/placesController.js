@@ -1,5 +1,5 @@
 
-angular.module('tnTour').controller('PlacesController', function($scope, appHelper, Place, Country){
+angular.module('tnTour').controller('PlacesController', function($scope, apiDataHelper, Place, Country){
 
   $scope.countries = Country.query();
   $scope.places = Place.query();
@@ -7,7 +7,7 @@ angular.module('tnTour').controller('PlacesController', function($scope, appHelp
 
   function addPointer(place){
     angular.extend(place.country,
-      appHelper.createPointer('Country', $scope.countries, place.country.objectId));
+      apiDataHelper.createPointer('Country', $scope.countries, place.country.objectId));
   }
 
   function insertPlace(place){

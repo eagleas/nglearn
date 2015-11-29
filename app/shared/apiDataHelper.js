@@ -1,4 +1,4 @@
-angular.module('tnTour').factory('appHelper', function(){
+angular.module('tnTour').factory('apiDataHelper', function(){
   return {
     createPointer: function(className, arr, objId){
       return {
