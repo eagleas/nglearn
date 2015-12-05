@@ -1,6 +1,6 @@
 describe('HomeController', function(){
 
-  beforeEach(module('tnTour', ['lodash']));
+  beforeEach(module('tnTour'));
   var $scope = {};
 
   beforeEach(inject(function($controller){
