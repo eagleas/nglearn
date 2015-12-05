@@ -1,4 +1,2 @@
 // let service _ in module lodash
-angular.module('lodash', []).factory('_', function($window){
-  return $window._;
-});
+angular.module('lodash', []).constant('_', window._);
