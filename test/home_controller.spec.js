@@ -1,6 +1,8 @@
 describe('HomeController', function(){
 
   beforeEach(module('tnTour'));
+  beforeEach(module('templates'));
+
   var $scope = {};
   var countryApiUrl = 'https://api.parse.com/1/classes/Country';
   var placeApiUrl = 'https://api.parse.com/1/classes/Place/?include=country';
@@ -10,10 +12,6 @@ describe('HomeController', function(){
   beforeEach(inject(function($controller, $httpBackend){
     $controller('HomeController', {$scope: $scope});
     httpBackend = $httpBackend;
-    //httpBackend.whenGET(countryApiUrl).respond(200);
-    //httpBackend.whenGET(placeApiUrl).respond(200);
-    //httpBackend.whenGET(tourApiUrl).respond(200);
-    //httpBackend.whenGET(/\.html$/).respond('');
   }));
 
   it('request to Parse.com', function(){
@@ -22,4 +20,5 @@ describe('HomeController', function(){
     httpBackend.expectGET(tourApiUrl).respond(200);
     expect(httpBackend.verifyNoOutstandingExpectation).not.toThrow();
   });
+
 });
