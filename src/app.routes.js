@@ -2,7 +2,7 @@ angular.module('tn-routing', ['ngRoute', 'ngResource'])
   .config(function($routeProvider, $locationProvider, $httpProvider){
     $routeProvider
     .when('/', {
-      templateUrl: "components/home/index.html",
+      templateUrl: "components/home/list.html",
       controller: 'HomeController',
     })
     .when('/tours/:objectId', {
@@ -10,7 +10,7 @@ angular.module('tn-routing', ['ngRoute', 'ngResource'])
       controller: 'TourController'
     })
     .when('/adm/tours', {
-      templateUrl: "components/tour/index.html",
+      templateUrl: "components/tour/list.html",
       controller: 'ToursController',
       admFlag: true,
     })

@@ -19,13 +19,14 @@ module.exports = function(config) {
       'node_modules/angular-mocks/angular-mocks.js',
       'src/**/*.js',
       'test/*.js',
-      'src/*.html'
+      'src/**/*.html'
     ],
 
 
     // list of files to exclude
     exclude: [
     ],
+
 
     plugins: [
       'karma-jasmine',
@@ -34,14 +35,17 @@ module.exports = function(config) {
       'karma-coverage'
     ],
 
+
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/*.html': ['ng-html2js']
+      'src/**/*.html': ['ng-html2js'],
+      'src/**/*.js': ['coverage']
     },
 
+
     ngHtml2JsPreprocessor: {
-      //stripPrefix: 'src/',
+      stripPrefix: 'src/',
       moduleName: 'templates'
     },
 
@@ -65,7 +69,8 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    //logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
 
     // enable / disable watching file and executing tests whenever any file changes
