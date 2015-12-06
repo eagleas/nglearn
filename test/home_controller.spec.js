@@ -7,8 +7,8 @@ describe('HomeController', function(){
   var countryApiUrl = 'https://api.parse.com/1/classes/Country';
   var placeApiUrl = 'https://api.parse.com/1/classes/Place/?include=country';
   var tourApiUrl = 'https://api.parse.com/1/classes/Tour/?include=country,place,hotel';
-  var httpBackend = null;
   var respond_blank = JSON.stringify({results: []});
+  var $httpBackend;
 
   beforeEach(inject(function($controller, _$httpBackend_){
     $controller('HomeController', {$scope: $scope});
