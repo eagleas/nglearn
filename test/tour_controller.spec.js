@@ -1,18 +1,23 @@
 describe('TourController', function(){
   beforeEach(module('tnTour'));
-  beforeEach(module('templates'));
 
   var $scope = {};
   var Tour;
   var routeParams = { objectId: '1b2d3d4' };
+  var $controller;
 
-  beforeEach(inject(function($controller, _Tour_){
+  beforeEach(inject(function(_$controller_, _Tour_){
     Tour = _Tour_;
-    spyOn(Tour, 'get');
-    $controller('TourController', { $scope: $scope, $routeParams: routeParams });
+    $controller = _$controller_;
   }));
 
+  function makeController() {
+    $controller('TourController', { $scope: $scope, $routeParams: routeParams });
+  }
+
   it('call Tour.get method with routeParams', function(){
+    spyOn(Tour, 'get');
+    makeController();
     expect(Tour.get).toHaveBeenCalledWith(routeParams);
   });
 
