@@ -1,7 +1,6 @@
 describe('HomeController', function(){
 
   beforeEach(module('tnTour'));
-  beforeEach(module('templates'));
 
   var $scope = {};
   var countryApiUrl = 'https://api.parse.com/1/classes/Country';

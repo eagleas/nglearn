@@ -3,17 +3,17 @@ describe('TourController', function(){
   beforeEach(module('templates'));
 
   var $scope = {};
-  var tourApiUrl = 'https://api.parse.com/1/classes/Tour/1ab2c3d4?include=country,place,hotel';
-  var $httpBackend;
-  var $routeParams = { objectId: '1b2d3d4' };
+  var Tour;
+  var routeParams = { objectId: '1b2d3d4' };
 
-  beforeEach(inject(function($controller, $routeParams, _$httpBackend_){
-    $controller('TourController', { $scope: $scope, $routeParams: $routeParams });
-    $httpBackend = _$httpBackend_;
+  beforeEach(inject(function($controller, _Tour_){
+    Tour = _Tour_;
+    spyOn(Tour, 'get');
+    $controller('TourController', { $scope: $scope, $routeParams: routeParams });
   }));
 
-  it('request to Parse.com', function(){
-    $httpBackend.expectGET(tourApiUrl);
-    expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
+  it('call Tour.get method with routeParams', function(){
+    expect(Tour.get).toHaveBeenCalledWith(routeParams);
   });
+
 });

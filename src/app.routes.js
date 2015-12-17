@@ -32,16 +32,5 @@ angular.module('tn-routing', ['ngRoute', 'ngResource'])
     .otherwise({
       redirectTo: '/'
     })
-  })
-
-  .run(function($rootScope, $route, $location){
-    $rootScope.$on("$locationChangeSuccess", function(){
-      var path = $location.path();
-      var route = $route.routes[path];
-      if (route && route.admFlag) {
-        $rootScope.admFlag = true;
-      } else {
-        $rootScope.admFlag = false;
-      }
-    });
   });
+
