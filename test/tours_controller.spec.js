@@ -5,44 +5,98 @@ describe('ToursController', function(){
 
   var $scope = {};
   var Country, Place, Hotel, Tour;
-  var $controller;
+  var $controller, $httpBackend, apiDataHelper;
+  var countryApiUrl = 'https://api.parse.com/1/classes/Country';
+  var placeApiUrl = 'https://api.parse.com/1/classes/Place/?include=country';
+  var hotelApiUrl = 'https://api.parse.com/1/classes/Hotel';
+  var tourApiUrl = 'https://api.parse.com/1/classes/Tour/?include=country,place,hotel';
 
-  beforeEach(inject(function(_$controller_, _$httpBackend_, _Tour_, _Country_, _Place_, _Hotel_){
+  beforeEach(inject(function(_$controller_, _$httpBackend_, _apiDataHelper_,
+    _Tour_, _Country_, _Place_, _Hotel_){
     Country = _Country_;
     Place = _Place_;
     Hotel = _Hotel_;
     Tour = _Tour_;
     $controller = _$controller_;
+    $httpBackend = _$httpBackend_;
+    apiDataHelper = _apiDataHelper_;
   }));
 
   function makeController(){
     $controller('ToursController', {$scope: $scope});
   };
 
-  it('calls query on related services', function(){
-    spyOn(Country, 'query');
-    spyOn(Place, 'query');
-    spyOn(Hotel, 'query');
-    spyOn(Tour, 'query');
-    makeController();
-    expect(Country.query).toHaveBeenCalled();
-    expect(Place.query).toHaveBeenCalled();
-    expect(Hotel.query).toHaveBeenCalled();
-    expect(Tour.query).toHaveBeenCalled();
+  function makeTour(){
+    return {
+      title: 'A tour',
+      editMode: false,
+      country: { objectId: 'a' },
+      place: { objectId: 'a' },
+      hotel: { objectId: 'a' },
+    };
+  };
+
+  describe('initialize', function(){
+    it('calls query on related services', function(){
+      spyOn(Country, 'query');
+      spyOn(Place, 'query');
+      spyOn(Hotel, 'query');
+      spyOn(Tour, 'query');
+      makeController();
+      expect(Country.query).toHaveBeenCalled();
+      expect(Place.query).toHaveBeenCalled();
+      expect(Hotel.query).toHaveBeenCalled();
+      expect(Tour.query).toHaveBeenCalled();
+    })
   });
 
-  it('showForm', function(){
-    makeController();
-    expect($scope.hiddenForm).toBe(true);
-    $scope.showForm();
-    expect($scope.hiddenForm).toBe(false);
-    expect($scope.newTour.title).toBe(null);
-  });
-  it('showForm', function(){
-    makeController();
-    $scope.hiddenForm = false;
-    $scope.hideForm();
-    expect($scope.hiddenForm).toBe(true);
-  });
+  describe('controller functions', function(){
 
+    beforeEach(function(){
+      makeController();
+    });
+
+    it('showForm', function(){
+      expect($scope.hiddenForm).toBe(true);
+      $scope.showForm();
+      expect($scope.hiddenForm).toBe(false);
+      expect($scope.newTour.title).toBe(null);
+    });
+
+    it('hideForm', function(){
+      $scope.hiddenForm = false;
+      $scope.hideForm();
+      expect($scope.hiddenForm).toBe(true);
+    });
+
+    it('editTour', function(){
+      var tour_template = makeTour();
+      var tour = angular.copy(tour_template);
+      $scope.editTour(tour);
+      expect(tour.draft).toEqual(tour_template);
+      expect(tour.editMode).toBe(true);
+    });
+
+    it('cancelEdit', function(){
+      var tour = makeTour();
+      tour.editMode = true;
+      $scope.cancelEdit(tour);
+      expect(tour.editMode).toBe(false);
+    });
+
+    it('saveTour call to Parse.com', function(){
+      var tour = makeTour();
+      spyOn(apiDataHelper, 'createPointer').and.callFake(function(obj){return obj});
+      $httpBackend.expectGET(countryApiUrl).respond(200);
+      $httpBackend.expectGET(placeApiUrl).respond(200);
+      $httpBackend.expectGET(hotelApiUrl).respond(200);
+      $httpBackend.expectGET(tourApiUrl).respond(200);
+      $httpBackend.whenPUT(tourApiUrl).respond(201, JSON.stringify(tour));
+      $scope.editTour(tour);
+      $scope.saveTour(tour);
+      expect(apiDataHelper.createPointer).toHaveBeenCalled();
+      expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
+    });
+
+  });
 });
