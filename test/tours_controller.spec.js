@@ -97,6 +97,25 @@ describe('ToursController', function(){
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
     });
 
+    it('saveTour update selected tour attribute', function(){
+      var tour = makeTour();
+      var blank = JSON.stringify( { results: [] } );
+      $httpBackend.whenGET(countryApiUrl).respond(200, blank);
+      $httpBackend.whenGET(placeApiUrl).respond(200, blank);
+      $httpBackend.whenGET(hotelApiUrl).respond(200, blank);
+      $httpBackend.whenGET(tourApiUrl).respond(200, blank);
+      $httpBackend.whenPUT(tourApiUrl).respond(200, JSON.stringify({objectId: 'abc', title: 'Aaaa'}));
+      spyOn(apiDataHelper, 'createPointer');
+      makeController();
+      $scope.editTour(tour);
+      tour.draft.title = 'Aaaa';
+      $scope.saveTour(tour);
+      $httpBackend.flush();
+      expect(tour.title).toBe('Aaaa');
+      expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
+    });
+
+
     it('addTour call to Parse.com', function(){
       var tour = makeTour();
       spyOn(apiDataHelper, 'createPointer');
@@ -110,6 +129,22 @@ describe('ToursController', function(){
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
     });
 
+    it('addTour add extended tour into array', function(){
+      var tour = makeTour();
+      spyOn(apiDataHelper, 'createPointer');
+      var blank = JSON.stringify( { results: [] } );
+      $httpBackend.whenGET(countryApiUrl).respond(200, blank);
+      $httpBackend.whenGET(placeApiUrl).respond(200, blank);
+      $httpBackend.whenGET(hotelApiUrl).respond(200, blank);
+      $httpBackend.whenGET(tourApiUrl).respond(200, blank);
+      $httpBackend.whenPOST(tourApiUrl).respond(201, JSON.stringify({objectId: 'a1'}));
+      expect($scope.tours.length).toBe(0);
+      $scope.addTour(tour);
+      $httpBackend.flush();
+      expect($scope.tours.length).toBe(1);
+      expect($scope.tours[0].objectId).toBe('a1');
+    });
+
     it('deleteTour call to Parse.com', function(){
       var tour = makeTour();
       $httpBackend.whenGET(countryApiUrl).respond(200);
@@ -120,5 +155,21 @@ describe('ToursController', function(){
       $scope.deleteTour(tour);
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
     });
+
+    it('deleteTour remove tour from array', function(){
+      var tour = makeTour();
+      var blank = JSON.stringify( { results: [] } );
+      $httpBackend.whenGET(countryApiUrl).respond(200, blank);
+      $httpBackend.whenGET(placeApiUrl).respond(200, blank);
+      $httpBackend.whenGET(hotelApiUrl).respond(200, blank);
+      $httpBackend.whenGET(tourApiUrl).respond(200, blank);
+      $httpBackend.whenDELETE(tourApiUrl).respond(200);
+      $scope.tours = [tour, {title: 'one'}];
+      $scope.deleteTour(tour);
+      $httpBackend.flush();
+      expect($scope.tours.length).toBe(1);
+      expect($scope.tours[0].title).toBe('one');
+    });
+
   });
 });

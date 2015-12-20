@@ -58,7 +58,8 @@ angular.module('tnTour').controller('ToursController', function($scope, apiDataH
   }
 
   $scope.editTour = function(tour){
-    tour.draft = angular.copy(tour);
+    var draft = angular.copy(tour);
+    tour.draft = draft;
     tour.editMode = true;
   }
 
