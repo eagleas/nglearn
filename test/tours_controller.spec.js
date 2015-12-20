@@ -91,12 +91,35 @@ describe('ToursController', function(){
       $httpBackend.expectGET(placeApiUrl).respond(200);
       $httpBackend.expectGET(hotelApiUrl).respond(200);
       $httpBackend.expectGET(tourApiUrl).respond(200);
-      $httpBackend.whenPUT(tourApiUrl).respond(201, JSON.stringify(tour));
+      $httpBackend.whenPUT(tourApiUrl).respond(200, JSON.stringify(tour));
       $scope.editTour(tour);
       $scope.saveTour(tour);
       expect(apiDataHelper.createPointer).toHaveBeenCalled();
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
     });
 
+    it('addTour call to Parse.com', function(){
+      var tour = makeTour();
+      spyOn(apiDataHelper, 'createPointer').and.callFake(function(obj){return obj});
+      $httpBackend.expectGET(countryApiUrl).respond(200);
+      $httpBackend.expectGET(placeApiUrl).respond(200);
+      $httpBackend.expectGET(hotelApiUrl).respond(200);
+      $httpBackend.expectGET(tourApiUrl).respond(200);
+      $httpBackend.whenPOST(tourApiUrl).respond(201, JSON.stringify(tour));
+      $scope.addTour(tour);
+      expect(apiDataHelper.createPointer).toHaveBeenCalled();
+      expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
+    });
+
+    it('deleteTour call to Parse.com', function(){
+      var tour = makeTour();
+      $httpBackend.expectGET(countryApiUrl).respond(200);
+      $httpBackend.expectGET(placeApiUrl).respond(200);
+      $httpBackend.expectGET(hotelApiUrl).respond(200);
+      $httpBackend.expectGET(tourApiUrl).respond(200);
+      $httpBackend.whenDELETE(tourApiUrl).respond(200);
+      $scope.deleteTour(tour);
+      expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
+    });
   });
 });
