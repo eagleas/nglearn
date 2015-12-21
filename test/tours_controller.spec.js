@@ -86,12 +86,12 @@ describe('ToursController', function(){
 
     it('saveTour call to Parse.com', function(){
       var tour = makeTour();
-      spyOn(apiDataHelper, 'createPointer').and.callFake(function(obj){return obj});
-      $httpBackend.expectGET(countryApiUrl).respond(200);
-      $httpBackend.expectGET(placeApiUrl).respond(200);
-      $httpBackend.expectGET(hotelApiUrl).respond(200);
-      $httpBackend.expectGET(tourApiUrl).respond(200);
-      $httpBackend.whenPUT(tourApiUrl).respond(200, JSON.stringify(tour));
+      spyOn(apiDataHelper, 'createPointer');
+      $httpBackend.whenGET(countryApiUrl).respond(200);
+      $httpBackend.whenGET(placeApiUrl).respond(200);
+      $httpBackend.whenGET(hotelApiUrl).respond(200);
+      $httpBackend.whenGET(tourApiUrl).respond(200);
+      $httpBackend.expectPUT(tourApiUrl).respond(200, JSON.stringify(tour));
       $scope.editTour(tour);
       $scope.saveTour(tour);
       expect(apiDataHelper.createPointer).toHaveBeenCalled();
@@ -100,12 +100,12 @@ describe('ToursController', function(){
 
     it('addTour call to Parse.com', function(){
       var tour = makeTour();
-      spyOn(apiDataHelper, 'createPointer').and.callFake(function(obj){return obj});
-      $httpBackend.expectGET(countryApiUrl).respond(200);
-      $httpBackend.expectGET(placeApiUrl).respond(200);
-      $httpBackend.expectGET(hotelApiUrl).respond(200);
-      $httpBackend.expectGET(tourApiUrl).respond(200);
-      $httpBackend.whenPOST(tourApiUrl).respond(201, JSON.stringify(tour));
+      spyOn(apiDataHelper, 'createPointer');
+      $httpBackend.whenGET(countryApiUrl).respond(200);
+      $httpBackend.whenGET(placeApiUrl).respond(200);
+      $httpBackend.whenGET(hotelApiUrl).respond(200);
+      $httpBackend.whenGET(tourApiUrl).respond(200);
+      $httpBackend.expectPOST(tourApiUrl).respond(201, JSON.stringify(tour));
       $scope.addTour(tour);
       expect(apiDataHelper.createPointer).toHaveBeenCalled();
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
@@ -113,11 +113,11 @@ describe('ToursController', function(){
 
     it('deleteTour call to Parse.com', function(){
       var tour = makeTour();
-      $httpBackend.expectGET(countryApiUrl).respond(200);
-      $httpBackend.expectGET(placeApiUrl).respond(200);
-      $httpBackend.expectGET(hotelApiUrl).respond(200);
-      $httpBackend.expectGET(tourApiUrl).respond(200);
-      $httpBackend.whenDELETE(tourApiUrl).respond(200);
+      $httpBackend.whenGET(countryApiUrl).respond(200);
+      $httpBackend.whenGET(placeApiUrl).respond(200);
+      $httpBackend.whenGET(hotelApiUrl).respond(200);
+      $httpBackend.whenGET(tourApiUrl).respond(200);
+      $httpBackend.expectDELETE(tourApiUrl).respond(200);
       $scope.deleteTour(tour);
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
     });
