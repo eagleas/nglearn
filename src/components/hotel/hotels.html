@@ -3,7 +3,7 @@
     <h2>Отели</h2>
   </div>
 </div>
-<div class="row edit-form" ng-if="admFlag">
+<div class="row edit-form">
   <button class="btn btn-primary" ng-disabled="!hiddenForm" ng-click="showForm()">Добавить отель</button>
 </div>
 <div class="row">
@@ -60,7 +60,7 @@
         <h3>Звезд: {{hotel.stars}}</h3>
       </div>
     </div>
-    <div class="row text-right" ng-if="admFlag">
+    <div class="row text-right">
       <div class="col-md-8 text-left">
       </div>
       <div class="col-md-2" ><a ng-click="editHotel(hotel)">Редактировать</a></div>

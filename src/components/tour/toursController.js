@@ -72,7 +72,7 @@ angular.module('tnTour').controller('ToursController', function($scope, apiDataH
   }
 
   $scope.cancelEdit = function(tour){
-    tour.editMode = false;
+    delete tour.editMode;
   }
 
 });

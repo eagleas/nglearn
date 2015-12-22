@@ -29,7 +29,6 @@ describe('ToursController', function(){
   function makeTour(){
     return {
       title: 'A tour',
-      editMode: false,
       country: { objectId: 'a' },
       place: { objectId: 'a' },
       hotel: { objectId: 'a' },
@@ -81,7 +80,7 @@ describe('ToursController', function(){
       var tour = makeTour();
       tour.editMode = true;
       $scope.cancelEdit(tour);
-      expect(tour.editMode).toBe(false);
+      expect(tour.editMode).toBe(undefined);
     });
 
     it('saveTour call to Parse.com', function(){

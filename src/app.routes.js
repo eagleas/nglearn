@@ -12,22 +12,18 @@ angular.module('tn-routing', ['ngRoute', 'ngResource'])
     .when('/adm/tours', {
       templateUrl: "components/tour/list.html",
       controller: 'ToursController',
-      admFlag: true,
     })
     .when('/adm/countries', {
       templateUrl: 'components/country/countries.html',
       controller: 'CountriesController',
-      admFlag: true
     })
     .when('/adm/places', {
       templateUrl: 'components/place/places.html',
       controller: 'PlacesController',
-      admFlag: true
     })
     .when('/adm/hotels', {
       templateUrl: 'components/hotel/hotels.html',
       controller: 'HotelsController',
-      admFlag: true
     })
     .otherwise({
       redirectTo: '/'
