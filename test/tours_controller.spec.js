@@ -80,7 +80,7 @@ describe('ToursController', function(){
       var tour = makeTour();
       tour.editMode = true;
       $scope.cancelEdit(tour);
-      expect(tour.editMode).toBe(undefined);
+      expect(tour.editMode).not.toBeDefined();
     });
 
     it('saveTour call to Parse.com', function(){
@@ -90,7 +90,7 @@ describe('ToursController', function(){
       $httpBackend.whenGET(placeApiUrl).respond(200);
       $httpBackend.whenGET(hotelApiUrl).respond(200);
       $httpBackend.whenGET(tourApiUrl).respond(200);
-      $httpBackend.expectPUT(tourApiUrl).respond(200, JSON.stringify(tour));
+      $httpBackend.expectPUT(tourApiUrl).respond(200, tour);
       $scope.editTour(tour);
       $scope.saveTour(tour);
       expect(apiDataHelper.createPointer).toHaveBeenCalled();
@@ -99,19 +99,20 @@ describe('ToursController', function(){
 
     it('saveTour update selected tour attribute', function(){
       var tour = makeTour();
-      var blank = JSON.stringify( { results: [] } );
+      var blank = { results: [] };
       $httpBackend.whenGET(countryApiUrl).respond(200, blank);
       $httpBackend.whenGET(placeApiUrl).respond(200, blank);
       $httpBackend.whenGET(hotelApiUrl).respond(200, blank);
       $httpBackend.whenGET(tourApiUrl).respond(200, blank);
-      $httpBackend.whenPUT(tourApiUrl).respond(200, JSON.stringify({objectId: 'abc', title: 'Aaaa'}));
+      var new_title = 'Aaaa';
+      $httpBackend.whenPUT(tourApiUrl).respond(200, {objectId: 'abc', title: new_title});
       spyOn(apiDataHelper, 'createPointer');
       makeController();
       $scope.editTour(tour);
-      tour.draft.title = 'Aaaa';
+      tour.draft.title = new_title;
       $scope.saveTour(tour);
       $httpBackend.flush();
-      expect(tour.title).toBe('Aaaa');
+      expect(tour.title).toBe(new_title);
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
     });
 
@@ -123,7 +124,7 @@ describe('ToursController', function(){
       $httpBackend.whenGET(placeApiUrl).respond(200);
       $httpBackend.whenGET(hotelApiUrl).respond(200);
       $httpBackend.whenGET(tourApiUrl).respond(200);
-      $httpBackend.expectPOST(tourApiUrl).respond(201, JSON.stringify(tour));
+      $httpBackend.expectPOST(tourApiUrl).respond(201, tour);
       $scope.addTour(tour);
       expect(apiDataHelper.createPointer).toHaveBeenCalled();
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
@@ -132,17 +133,18 @@ describe('ToursController', function(){
     it('addTour add extended tour into array', function(){
       var tour = makeTour();
       spyOn(apiDataHelper, 'createPointer');
-      var blank = JSON.stringify( { results: [] } );
+      var blank = { results: [] };
       $httpBackend.whenGET(countryApiUrl).respond(200, blank);
       $httpBackend.whenGET(placeApiUrl).respond(200, blank);
       $httpBackend.whenGET(hotelApiUrl).respond(200, blank);
       $httpBackend.whenGET(tourApiUrl).respond(200, blank);
-      $httpBackend.whenPOST(tourApiUrl).respond(201, JSON.stringify({objectId: 'a1'}));
+      var objId = 'a1';
+      $httpBackend.whenPOST(tourApiUrl).respond(201, {objectId: objId});
       expect($scope.tours.length).toBe(0);
       $scope.addTour(tour);
       $httpBackend.flush();
       expect($scope.tours.length).toBe(1);
-      expect($scope.tours[0].objectId).toBe('a1');
+      expect($scope.tours[0].objectId).toBe(objId);
     });
 
     it('deleteTour call to Parse.com', function(){
@@ -158,7 +160,7 @@ describe('ToursController', function(){
 
     it('deleteTour remove tour from array', function(){
       var tour = makeTour();
-      var blank = JSON.stringify( { results: [] } );
+      var blank = { results: [] };
       $httpBackend.whenGET(countryApiUrl).respond(200, blank);
       $httpBackend.whenGET(placeApiUrl).respond(200, blank);
       $httpBackend.whenGET(hotelApiUrl).respond(200, blank);
