@@ -69,7 +69,8 @@ angular.module('tnTour').controller('HotelsController', function($scope, $q, $fi
   }
 
   $scope.editHotel = function(hotel){
-    hotel.draft = angular.copy(hotel);
+    var draft = angular.copy(hotel);
+    hotel.draft = draft;
     hotel.editMode = true;
   }
 
@@ -83,7 +84,8 @@ angular.module('tnTour').controller('HotelsController', function($scope, $q, $fi
   }
 
   $scope.cancelEdit = function(hotel){
-    hotel.editMode = false;
+    delete hotel.draft;
+    delete hotel.editMode;
   }
 
 });

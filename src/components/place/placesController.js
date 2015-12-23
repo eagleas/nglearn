@@ -51,7 +51,7 @@ angular.module('tnTour').controller('PlacesController', function($scope, apiData
   }
 
   $scope.cancelEdit = function(place){
-    place.draft = null;
+    delete place.draft;
   }
 
 });

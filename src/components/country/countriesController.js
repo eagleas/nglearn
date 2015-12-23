@@ -43,7 +43,7 @@ angular.module('tnTour').controller('CountriesController', ['$scope', 'Country',
   }
 
   $scope.cancelEdit = function(country){
-    country.draft = null;
+    delete country.draft;
   }
 
 }]);

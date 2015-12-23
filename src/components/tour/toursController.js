@@ -25,8 +25,6 @@ angular.module('tnTour').controller('ToursController', function($scope, apiDataH
     return {title: null, country: null, price: null, duration: null, text: null};
   }
 
-  clearForm();
-
   function addPointers(tour){
     angular.extend(tour.country,
       apiDataHelper.createPointer('Country', $scope.countries, tour.country.objectId));
@@ -60,7 +58,8 @@ angular.module('tnTour').controller('ToursController', function($scope, apiDataH
   }
 
   $scope.editTour = function(tour){
-    tour.draft = angular.copy(tour);
+    var draft = angular.copy(tour);
+    tour.draft = draft;
     tour.editMode = true;
   }
 
@@ -74,7 +73,7 @@ angular.module('tnTour').controller('ToursController', function($scope, apiDataH
   }
 
   $scope.cancelEdit = function(tour){
-    tour.editMode = false;
+    delete tour.editMode;
   }
 
 });
