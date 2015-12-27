@@ -3,28 +3,37 @@ describe('HomeController', function(){
   beforeEach(module('tnTour'));
 
   var $scope = {};
-  var countryApiUrl = 'https://api.parse.com/1/classes/Country';
+  //var countryApiUrl = 'https://api.parse.com/1/classes/Country';
   var placeApiUrl = 'https://api.parse.com/1/classes/Place/?include=country';
   var tourApiUrl = 'https://api.parse.com/1/classes/Tour/?include=country,place,hotel';
   var respond_blank = {results: []};
+  var $controller;
   var $httpBackend;
+  var Country = jasmine.createSpyObj('CountryStub', ['all']);
 
-  beforeEach(inject(function($controller, _$httpBackend_){
-    $controller('HomeController', {$scope: $scope});
+  beforeEach(inject(function(_$controller_, _$httpBackend_){
+    $controller = _$controller_;
     $httpBackend = _$httpBackend_;
+    Country.all.and.returnValue([]);
+    makeController();
   }));
 
+  function makeController(){
+    $controller('HomeController', {$scope: $scope, Country: Country});
+  };
+
   it('request to Parse.com', function(){
-    $httpBackend.expectGET(countryApiUrl).respond(200);
+    Country.all.and.returnValue([]);
+    expect(Country.all).toHaveBeenCalled();
     $httpBackend.expectGET(placeApiUrl).respond(200);
     $httpBackend.expectGET(tourApiUrl).respond(200);
     expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
   });
 
   it('set $scope.countries an array the countries', function(){
-    var antarctida = {objectId: 'a1b2c3d4', name: 'Antarctida'}
-    var respond = {results: [antarctida]};
-    $httpBackend.whenGET(countryApiUrl).respond(200, respond);
+    var antarctida = {objectId: 'a1b2c3d4', name: 'Antarctida'};
+    Country.all.and.returnValue([antarctida]);
+    makeController();
     $httpBackend.whenGET(placeApiUrl).respond(200, respond_blank);
     $httpBackend.whenGET(tourApiUrl).respond(200, respond_blank);
     $httpBackend.flush();
@@ -35,9 +44,8 @@ describe('HomeController', function(){
   });
 
   it('set $scope.places an array the places', function(){
-    var redsquare = {objectId: 'a1b2c3d4', name: 'Red Square'}
+    var redsquare = {objectId: 'a1b2c3d4', name: 'Red Square'};
     var respond = {results: [redsquare]};
-    $httpBackend.whenGET(countryApiUrl).respond(200, respond_blank);
     $httpBackend.whenGET(placeApiUrl).respond(200, respond);
     $httpBackend.whenGET(tourApiUrl).respond(200, respond_blank);
     $httpBackend.flush();
@@ -48,9 +56,8 @@ describe('HomeController', function(){
   });
 
   it('set $scope.tours an array the tours', function(){
-    var tour = {objectId: 'a1b2c3d4', title: 'Tour', text: 'Description'}
+    var tour = {objectId: 'a1b2c3d4', title: 'Tour', text: 'Description'};
     var respond = {results: [tour]};
-    $httpBackend.whenGET(countryApiUrl).respond(200, respond_blank);
     $httpBackend.whenGET(placeApiUrl).respond(200, respond_blank);
     $httpBackend.whenGET(tourApiUrl).respond(200, respond);
     $httpBackend.flush();

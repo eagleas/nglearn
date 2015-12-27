@@ -1,7 +1,7 @@
 
 angular.module('tnTour').controller('CountriesController', ['$scope', 'Country', function($scope, Country){
 
-  $scope.countries = Country.query();
+  $scope.countries = Country.all();
   $scope.newCountry = null;
 
   function insertCountry(country){

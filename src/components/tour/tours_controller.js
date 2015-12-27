@@ -1,7 +1,7 @@
 
 angular.module('tnTour').controller('ToursController', function($scope, apiDataHelper, Tour, Country, Place, Hotel){
 
-  $scope.countries = Country.query();
+  $scope.countries = Country.all();
   $scope.places = Place.query();
   $scope.hotels = Hotel.query();
   $scope.tours = Tour.query();

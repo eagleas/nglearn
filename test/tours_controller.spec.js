@@ -37,12 +37,12 @@ describe('ToursController', function(){
 
   describe('initialize', function(){
     it('calls query on related services', function(){
-      spyOn(Country, 'query');
+      spyOn(Country, 'all');
       spyOn(Place, 'query');
       spyOn(Hotel, 'query');
       spyOn(Tour, 'query');
       makeController();
-      expect(Country.query).toHaveBeenCalled();
+      expect(Country.all).toHaveBeenCalled();
       expect(Place.query).toHaveBeenCalled();
       expect(Hotel.query).toHaveBeenCalled();
       expect(Tour.query).toHaveBeenCalled();

@@ -1,7 +1,7 @@
 
 angular.module('tnTour').controller('PlacesController', function($scope, apiDataHelper, Place, Country){
 
-  $scope.countries = Country.query();
+  $scope.countries = Country.all();
   $scope.places = Place.query();
   $scope.newPlace = null;
 

@@ -1,4 +1,7 @@
 angular.module('tnTour').factory('Country', function($resource){
+
+  var countries = []
+
   var Country = $resource(
     'https://api.parse.com/1/classes/Country/:objectId',
     { objectId: '@objectId'},
@@ -14,6 +17,25 @@ angular.module('tnTour').factory('Country', function($resource){
     countries.sort(function(a, b){ return a.name.localeCompare(b.name) });
     return countries;
   }
+
+  function init() {
+    countries = Country.query();
+  }
+
+  init();
+
+  Country.all = function(){
+    return countries;
+  }
+
+  //Country.add = function(country){
+  //}
+
+  //Country.destroy = function(country){
+  //}
+
+  //Country.update = function(country){
+  //}
 
   return Country;
 });
