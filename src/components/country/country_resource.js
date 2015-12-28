@@ -1,6 +1,6 @@
 angular.module('tnTour').factory('Country', function($resource){
 
-  var countries = []
+  var countries = [];
 
   var Country = $resource(
     'https://api.parse.com/1/classes/Country/:objectId',

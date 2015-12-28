@@ -4,26 +4,27 @@ describe('ToursController', function(){
   beforeEach(module('tnTour'));
 
   var $scope = {};
-  var Country, Place, Hotel, Tour;
+  var Hotel, Tour;
   var $controller, $httpBackend, apiDataHelper;
-  var countryApiUrl = 'https://api.parse.com/1/classes/Country';
-  var placeApiUrl = 'https://api.parse.com/1/classes/Place/?include=country';
   var hotelApiUrl = 'https://api.parse.com/1/classes/Hotel';
   var tourApiUrl = 'https://api.parse.com/1/classes/Tour/?include=country,place,hotel';
+  var Country = jasmine.createSpyObj('CountryStub', ['all']);
+  var Place = jasmine.createSpyObj('PlaceStub', ['all']);
 
   beforeEach(inject(function(_$controller_, _$httpBackend_, _apiDataHelper_,
-    _Tour_, _Country_, _Place_, _Hotel_){
-    Country = _Country_;
-    Place = _Place_;
+    _Tour_, _Hotel_){
+    Country.all.and.returnValue([]);
+    Place.all.and.returnValue([]);
     Hotel = _Hotel_;
     Tour = _Tour_;
     $controller = _$controller_;
     $httpBackend = _$httpBackend_;
     apiDataHelper = _apiDataHelper_;
+    makeController();
   }));
 
   function makeController(){
-    $controller('ToursController', {$scope: $scope});
+    $controller('ToursController', {$scope: $scope, Country: Country, Place: Place});
   };
 
   function makeTour(){
@@ -37,23 +38,17 @@ describe('ToursController', function(){
 
   describe('initialize', function(){
     it('calls query on related services', function(){
-      spyOn(Country, 'all');
-      spyOn(Place, 'query');
       spyOn(Hotel, 'query');
       spyOn(Tour, 'query');
       makeController();
       expect(Country.all).toHaveBeenCalled();
-      expect(Place.query).toHaveBeenCalled();
+      expect(Place.all).toHaveBeenCalled();
       expect(Hotel.query).toHaveBeenCalled();
       expect(Tour.query).toHaveBeenCalled();
     })
   });
 
   describe('controller functions', function(){
-
-    beforeEach(function(){
-      makeController();
-    });
 
     it('showForm', function(){
       expect($scope.hiddenForm).toBe(true);
@@ -85,12 +80,10 @@ describe('ToursController', function(){
 
     it('saveTour call to Parse.com', function(){
       var tour = makeTour();
-      spyOn(apiDataHelper, 'createPointer');
-      $httpBackend.whenGET(countryApiUrl).respond(200);
-      $httpBackend.whenGET(placeApiUrl).respond(200);
+      spyOn(apiDataHelper, 'createPointer').and.callFake(function(obj){return obj});
       $httpBackend.whenGET(hotelApiUrl).respond(200);
       $httpBackend.whenGET(tourApiUrl).respond(200);
-      $httpBackend.expectPUT(tourApiUrl).respond(200, tour);
+      $httpBackend.expectPUT(tourApiUrl).respond(200, JSON.stringify(tour));
       $scope.editTour(tour);
       $scope.saveTour(tour);
       expect(apiDataHelper.createPointer).toHaveBeenCalled();
@@ -119,12 +112,10 @@ describe('ToursController', function(){
 
     it('addTour call to Parse.com', function(){
       var tour = makeTour();
-      spyOn(apiDataHelper, 'createPointer');
-      $httpBackend.whenGET(countryApiUrl).respond(200);
-      $httpBackend.whenGET(placeApiUrl).respond(200);
+      spyOn(apiDataHelper, 'createPointer').and.callFake(function(obj){return obj});
       $httpBackend.whenGET(hotelApiUrl).respond(200);
       $httpBackend.whenGET(tourApiUrl).respond(200);
-      $httpBackend.expectPOST(tourApiUrl).respond(201, tour);
+      $httpBackend.expectPOST(tourApiUrl).respond(201, JSON.stringify(tour));
       $scope.addTour(tour);
       expect(apiDataHelper.createPointer).toHaveBeenCalled();
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
@@ -149,11 +140,9 @@ describe('ToursController', function(){
 
     it('deleteTour call to Parse.com', function(){
       var tour = makeTour();
-      $httpBackend.whenGET(countryApiUrl).respond(200);
-      $httpBackend.whenGET(placeApiUrl).respond(200);
       $httpBackend.whenGET(hotelApiUrl).respond(200);
       $httpBackend.whenGET(tourApiUrl).respond(200);
-      $httpBackend.expectDELETE(tourApiUrl).respond(200);
+      $httpBackend.whenDELETE(tourApiUrl).respond(200);
       $scope.deleteTour(tour);
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
     });
