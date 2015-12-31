@@ -3,7 +3,7 @@ angular.module('tnTour').controller('ToursController', function($scope, apiDataH
 
   $scope.countries = Country.all();
   $scope.places = Place.all();
-  $scope.hotels = Hotel.query();
+  $scope.hotels = Hotel.all();
   $scope.tours = Tour.query();
 
   $scope.hiddenForm = true;

@@ -1,4 +1,7 @@
 angular.module('tnTour').factory('Hotel', function($resource){
+
+  var hotels;
+
   var Hotel = $resource(
     'https://api.parse.com/1/classes/Hotel/:objectId',
     { objectId: '@objectId'},
@@ -12,6 +15,16 @@ angular.module('tnTour').factory('Hotel', function($resource){
     data = angular.fromJson(response);
     var hotels = data.results;
     hotels.sort(function(a, b){ return a.name.localeCompare(b.name) });
+    return hotels;
+  }
+
+  function init() {
+    hotels = Hotel.query();
+  }
+
+  init();
+
+  Hotel.all = function(){
     return hotels;
   }
 

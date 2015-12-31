@@ -3,7 +3,7 @@ angular.module('tnTour').controller('HotelsController', function($scope, $q, $fi
 
   $scope.countries = Country.all();
   $scope.places = Place.all();
-  $scope.hotels = Hotel.query();
+  $scope.hotels = Hotel.all();
 
   // Заменить в турах в местах Pointer на Place значением из загруженных списков
   // Country добавить по значению в Place

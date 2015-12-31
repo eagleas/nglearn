@@ -6,16 +6,15 @@ describe('ToursController', function(){
   var $scope = {};
   var Hotel, Tour;
   var $controller, $httpBackend, apiDataHelper;
-  var hotelApiUrl = 'https://api.parse.com/1/classes/Hotel';
   var tourApiUrl = 'https://api.parse.com/1/classes/Tour/?include=country,place,hotel';
   var Country = jasmine.createSpyObj('CountryStub', ['all']);
   var Place = jasmine.createSpyObj('PlaceStub', ['all']);
+  var Hotel = jasmine.createSpyObj('HotelStub', ['all']);
 
-  beforeEach(inject(function(_$controller_, _$httpBackend_, _apiDataHelper_,
-    _Tour_, _Hotel_){
+  beforeEach(inject(function(_$controller_, _$httpBackend_, _apiDataHelper_, _Tour_){
     Country.all.and.returnValue([]);
     Place.all.and.returnValue([]);
-    Hotel = _Hotel_;
+    Hotel.all.and.returnValue([]);
     Tour = _Tour_;
     $controller = _$controller_;
     $httpBackend = _$httpBackend_;
@@ -24,7 +23,7 @@ describe('ToursController', function(){
   }));
 
   function makeController(){
-    $controller('ToursController', {$scope: $scope, Country: Country, Place: Place});
+    $controller('ToursController', {$scope: $scope, Country: Country, Place: Place, Hotel: Hotel});
   };
 
   function makeTour(){
@@ -38,12 +37,11 @@ describe('ToursController', function(){
 
   describe('initialize', function(){
     it('calls query on related services', function(){
-      spyOn(Hotel, 'query');
       spyOn(Tour, 'query');
       makeController();
       expect(Country.all).toHaveBeenCalled();
       expect(Place.all).toHaveBeenCalled();
-      expect(Hotel.query).toHaveBeenCalled();
+      expect(Hotel.all).toHaveBeenCalled();
       expect(Tour.query).toHaveBeenCalled();
     })
   });
@@ -81,7 +79,6 @@ describe('ToursController', function(){
     it('saveTour call to Parse.com', function(){
       var tour = makeTour();
       spyOn(apiDataHelper, 'createPointer').and.callFake(function(obj){return obj});
-      $httpBackend.whenGET(hotelApiUrl).respond(200);
       $httpBackend.whenGET(tourApiUrl).respond(200);
       $httpBackend.expectPUT(tourApiUrl).respond(200, JSON.stringify(tour));
       $scope.editTour(tour);
@@ -113,7 +110,6 @@ describe('ToursController', function(){
     it('addTour call to Parse.com', function(){
       var tour = makeTour();
       spyOn(apiDataHelper, 'createPointer').and.callFake(function(obj){return obj});
-      $httpBackend.whenGET(hotelApiUrl).respond(200);
       $httpBackend.whenGET(tourApiUrl).respond(200);
       $httpBackend.expectPOST(tourApiUrl).respond(201, JSON.stringify(tour));
       $scope.addTour(tour);
@@ -140,7 +136,6 @@ describe('ToursController', function(){
 
     it('deleteTour call to Parse.com', function(){
       var tour = makeTour();
-      $httpBackend.whenGET(hotelApiUrl).respond(200);
       $httpBackend.whenGET(tourApiUrl).respond(200);
       $httpBackend.whenDELETE(tourApiUrl).respond(200);
       $scope.deleteTour(tour);
