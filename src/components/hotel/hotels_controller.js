@@ -8,24 +8,17 @@ angular.module('tnTour').controller('HotelsController', function($scope, $q, $fi
   // Заменить в турах в местах Pointer на Place значением из загруженных списков
   // Country добавить по значению в Place
   $q.all([$scope.hotels.$promise, $scope.countries.$promise, $scope.places.$promise]).then(function(){
-    angular.forEach($scope.hotels, function(item){
-      item.place = $filter('filter')($scope.places, function(p){
-        return p.objectId == item.place.objectId;
-      })[0];
-      item.country = $filter('filter')($scope.countries, function(c){
-        return c.objectId == item.place.country.objectId;
-      })[0];
+    angular.forEach($scope.hotels, function(hotel){
+      angular.extend(hotel.place, _.find($scope.places, 'objectId', hotel.place.objectId));
+      hotel.country = {};
+      angular.extend(hotel.country, _.find($scope.countries, 'objectId', hotel.place.country.objectId));
     });
   });
 
   $scope.hiddenForm = true;
 
-  function clearForm(){
-    $scope.newHotel = emptyHotel()
-  }
-
   $scope.showForm = function(){
-    clearForm();
+    $scope.newHotel = null;
     $scope.hiddenForm = false;
   }
 
@@ -33,39 +26,14 @@ angular.module('tnTour').controller('HotelsController', function($scope, $q, $fi
     $scope.hiddenForm = true;
   }
 
-  function emptyHotel(){
-    return {name: null, place: null};
-  }
-
-  clearForm();
-
-
-  function addPointer(hotel){
-    angular.extend(hotel.place,
-      apiDataHelper.createPointer('Place', $scope.places, hotel.place.objectId));
-  }
-
   $scope.addHotel = function(newHotel){
-    addPointer(newHotel);
-    new Hotel(newHotel).$save().then(
-      function(hotel){
-        var hotelFromServer = angular.extend(hotel, newHotel);
-        $scope.hotels.push(hotelFromServer);
-        $scope.hideForm();
-        newHotel = emptyHotel();
-      }
-    );
+    delete newHotel.country;
+    Hotel.add(newHotel);
+    $scope.hiddenForm = true;
   }
 
   $scope.deleteHotel = function(hotel){
-    new Hotel(hotel).$delete().then(
-      function(){
-        var index = $scope.hotels.indexOf(hotel);
-        if (index > -1) {
-          $scope.hotels.splice(index, 1);
-        }
-      }
-    );
+    Hotel.remove(hotel);
   }
 
   $scope.editHotel = function(hotel){
@@ -75,12 +43,8 @@ angular.module('tnTour').controller('HotelsController', function($scope, $q, $fi
   }
 
   $scope.saveHotel = function(hotel){
-    addPointer(hotel.draft);
-    new Hotel(hotel.draft).$update().then(
-      function(){
-        angular.copy(hotel.draft, hotel);
-      }
-    )
+    Hotel.store(hotel);
+    hotel.editMode = false;
   }
 
   $scope.cancelEdit = function(hotel){

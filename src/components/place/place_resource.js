@@ -66,5 +66,6 @@ angular.module('tnTour').factory('Place', function($resource, apiDataHelper){
       notifyObservers();
     });
   };
+
   return Place;
 });
