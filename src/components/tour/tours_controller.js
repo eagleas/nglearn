@@ -1,19 +1,28 @@
 
-angular.module('tnTour').controller('ToursController', function($scope, apiDataHelper, Tour, Country, Place, Hotel){
+angular.module('tnTour').controller('ToursController', function($scope, $q, _, apiDataHelper, Tour, Country, Place, Hotel){
 
   $scope.countries = Country.all();
   $scope.places = Place.all();
   $scope.hotels = Hotel.all();
-  $scope.tours = Tour.query();
+  $scope.tours = Tour.all();
 
   $scope.hiddenForm = true;
 
-  function clearForm(){
-    $scope.newTour = emptyTour()
-  }
+  Tour.registerObserverCallback(function(){
+    $scope.tours = Tour.all();
+    $scope.$$phase || $scope.$digest();
+  });
+
+  $q.all([$scope.tours.$promise, $scope.countries.$promise, $scope.hotels.$promise]).then(function(){
+    angular.forEach($scope.tours, function(tour){
+      angular.extend(tour.country, _.find($scope.countries, 'objectId', tour.country.objectId));
+      angular.extend(tour.place, _.find($scope.places, 'objectId', tour.place.objectId));
+      angular.extend(tour.hotel, _.find($scope.hotels, 'objectId', tour.hotel.objectId));
+    });
+  });
 
   $scope.showForm = function(){
-    clearForm();
+    $scope.newTour = {};
     $scope.hiddenForm = false;
   }
 
@@ -21,40 +30,14 @@ angular.module('tnTour').controller('ToursController', function($scope, apiDataH
     $scope.hiddenForm = true;
   }
 
-  function emptyTour(){
-    return {title: null, country: null, price: null, duration: null, text: null};
-  }
-
-  function addPointers(tour){
-    angular.extend(tour.country,
-      apiDataHelper.createPointer('Country', $scope.countries, tour.country.objectId));
-    angular.extend(tour.place,
-      apiDataHelper.createPointer('Place', $scope.places, tour.place.objectId));
-    angular.extend(tour.hotel,
-      apiDataHelper.createPointer('Hotel', $scope.hotels, tour.hotel.objectId));
-  }
-
   $scope.addTour = function(newTour){
-    addPointers(newTour);
-    new Tour(newTour).$save().then(
-      function(tour){
-        var tourFromServer = angular.extend(tour, newTour);
-        $scope.tours.push(tourFromServer);
-        $scope.hideForm();
-        newTour = emptyTour();
-      }
-    );
+    Tour.add(newTour);
+    $scope.hideForm();
+    $scope.newTour = {};
   }
 
   $scope.deleteTour = function(tour){
-    new Tour(tour).$delete().then(
-      function(){
-        var index = $scope.tours.indexOf(tour);
-        if (index > -1) {
-          $scope.tours.splice(index, 1);
-        }
-      }
-    );
+    Tour.remove(tour);
   }
 
   $scope.editTour = function(tour){
@@ -64,12 +47,7 @@ angular.module('tnTour').controller('ToursController', function($scope, apiDataH
   }
 
   $scope.saveTour = function(tour){
-    addPointers(tour.draft);
-    new Tour(tour.draft).$update().then(
-      function(){
-        angular.copy(tour.draft, tour);
-      }
-    )
+    Tour.store(tour);
   }
 
   $scope.cancelEdit = function(tour){

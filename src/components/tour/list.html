@@ -79,7 +79,7 @@
   </div>
 </div>
 <!-- Список туров -->
-<div class="row item" ng-repeat="tour in tours | filter: {country: {objectId: selectedCountry.objectId}, place: {objectId: selectedPlace.objectId}}">
+<div class="row item" ng-repeat="tour in tours | filter: {country: {objectId: selectedCountry.objectId}, place: {objectId: selectedPlace.objectId}} | orderBy: 'title'">
   <div class="row-tour" ng-show="!tour.editMode">
     <div class="row">
       <div class="col-md-10">

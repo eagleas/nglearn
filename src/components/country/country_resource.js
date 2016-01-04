@@ -1,6 +1,7 @@
 angular.module('tnTour').factory('Country', function($resource){
 
   var countries = [];
+  var observerCallbacks = [];
 
   var Country = $resource(
     'https://api.parse.com/1/classes/Country/:objectId',
@@ -24,12 +25,25 @@ angular.module('tnTour').factory('Country', function($resource){
 
   init();
 
+  Country.registerObserverCallback = function(callback){
+    observerCallbacks.push(callback);
+  };
+
+  function notifyObservers(){
+    angular.forEach(observerCallbacks, function(callback){ callback(); });
+  };
+
   Country.all = function(){
     return countries;
   }
 
-  //Country.add = function(country){
-  //}
+  Country.add = function(country){
+    new Country(country).$save().then(function(result){
+      angular.extend(country, result);
+      countries.push(country);
+      notifyObservers();
+    });
+  };
 
   //Country.destroy = function(country){
   //}

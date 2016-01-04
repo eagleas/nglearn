@@ -3,6 +3,6 @@ angular.module('tnTour').controller('HomeController', function($scope, apiDataHe
 
   $scope.countries = Country.all();
   $scope.places = Place.all();
-  $scope.tours = Tour.query();
+  $scope.tours = Tour.all();
 
 });

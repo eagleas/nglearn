@@ -26,4 +26,19 @@ describe('TourController', function(){
     });
   });
 
+  describe('functions', function(){
+    it('add country', function(){
+      $httpBackend.whenGET(APIurl).respond(200, { results: []});
+      var objId = 'c1';
+      $httpBackend.expectPOST(APIurl).respond(201, { objectId: objId });
+      var country = { name: 'Argentina' };
+      Country.add(country);
+      $httpBackend.flush();
+      expect(Country.all().length).toBe(1);
+      expect(Country.all()[0].objectId).toBe(objId);
+      expect(Country.all()[0].name).toBe(country.name);
+      expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
+    });
+  });
+
 });

@@ -7,7 +7,7 @@
     <button class="btn btn-primary" ng-click="addCountry()">Добавить</button>
   </div>
 </div>
-<div ng-repeat="country in countries track by $index">
+<div ng-repeat="country in countries | orderBy: 'name' track by $index">
   <div ng-hide="country.draft">
     <div class="row vertical-align">
       <div class="col-md-4"><h3>{{country.name}}</a></h3> </div>

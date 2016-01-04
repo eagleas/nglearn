@@ -4,19 +4,14 @@ angular.module('tnTour').controller('CountriesController', ['$scope', 'Country',
   $scope.countries = Country.all();
   $scope.newCountry = null;
 
-  function insertCountry(country){
-    $scope.countries.push(country);
-    $scope.countries.sort(function(a, b){ return a.name.localeCompare(b.name) });
-  }
+  Country.registerObserverCallback(function(){
+    $scope.countries = Country.all();
+    $scope.$$phase || $scope.$digest();
+  });
 
   $scope.addCountry = function(){
-    new Country($scope.newCountry).$save().then(
-      function(country){
-        var countryFromServer = angular.extend(country, $scope.newCountry);
-        insertCountry(countryFromServer);
-        $scope.newCountry = null;
-      }
-    );
+    Country.add($scope.newCountry);
+    $scope.newCountry = null;
   }
 
   $scope.deleteCountry = function(country){
@@ -38,7 +33,6 @@ angular.module('tnTour').controller('CountriesController', ['$scope', 'Country',
   $scope.saveCountry = function(country){
     new Country(country.draft).$update().then( function(){
       angular.copy(country.draft, country);
-      $scope.countries.sort(function(a, b){ return a.name.localeCompare(b.name) });
     })
   }
 
