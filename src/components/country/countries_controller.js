@@ -15,14 +15,7 @@ angular.module('tnTour').controller('CountriesController', ['$scope', 'Country',
   }
 
   $scope.deleteCountry = function(country){
-    new Country(country).$delete().then(
-      function(){
-        var index = $scope.countries.indexOf(country);
-        if (index > -1) {
-          $scope.countries.splice(index, 1);
-        }
-      }
-    );
+    Country.remove(country);
   }
 
   $scope.editCountry = function(country){
@@ -31,9 +24,7 @@ angular.module('tnTour').controller('CountriesController', ['$scope', 'Country',
   }
 
   $scope.saveCountry = function(country){
-    new Country(country.draft).$update().then( function(){
-      angular.copy(country.draft, country);
-    })
+    Country.store(country);
   }
 
   $scope.cancelEdit = function(country){

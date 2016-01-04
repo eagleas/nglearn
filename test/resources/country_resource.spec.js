@@ -39,6 +39,31 @@ describe('TourController', function(){
       expect(Country.all()[0].name).toBe(country.name);
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
     });
+
+    it('remove country', function(){
+      var country = { objectId: 't1', name: 'Country1' };
+      $httpBackend.whenGET(APIurl).respond(200, { results: [country] });
+      $httpBackend.flush();
+      expect(Country.all().length).toBe(1);
+      $httpBackend.expectDELETE(APIurl+'/'+country.objectId).respond(200);
+      Country.remove(country);
+      $httpBackend.flush();
+      expect(Country.all().length).toBe(0);
+      expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
+    });
+
+    it('store country', function(){
+      var country = { objectId: 't1', name: 'Country1' };
+      $httpBackend.whenGET(APIurl).respond(200, { results: [country] });
+      var draft_title = 'a New country';
+      var draft = angular.copy(country);
+      draft.title = draft_title;
+      country.draft = draft;
+      $httpBackend.expectPUT(APIurl+'/'+country.objectId).respond(200, {results: [draft]});
+      Country.store(country);
+      $httpBackend.flush();
+      expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
+    });
   });
 
 });

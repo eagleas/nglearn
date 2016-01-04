@@ -45,11 +45,23 @@ angular.module('tnTour').factory('Country', function($resource){
     });
   };
 
-  //Country.destroy = function(country){
-  //}
+  Country.remove = function(country){
+    new Country(country).$delete().then(function(result){
+      var ids = countries.map(function(obj){ return obj.objectId });
+      var index = ids.indexOf(country.objectId);
+      if (index > -1) {
+        countries.splice(index, 1);
+      };
+      notifyObservers();
+    });
+  };
 
-  //Country.update = function(country){
-  //}
+  Country.store = function(country){
+    new Country(country.draft).$update().then(function(result){
+      angular.copy(country.draft, country);
+      notifyObservers();
+    });
+  };
 
   return Country;
 });
