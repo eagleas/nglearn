@@ -1,5 +1,5 @@
 
-angular.module('tnTour').controller('CountriesController', ['$scope', 'Country', function($scope, Country){
+angular.module('tnTour').controller('CountriesController', function($scope, Country){
 
   $scope.countries = Country.all();
   $scope.newCountry = null;
@@ -31,4 +31,4 @@ angular.module('tnTour').controller('CountriesController', ['$scope', 'Country',
     delete country.draft;
   }
 
-}]);
+});

@@ -20,12 +20,14 @@
           <h1 class="title"><a href="/#/">Турагенство</a></h1>
         </div>
       </div>
+      <div ng-include src="'/breadcrumbs.html'"></div>
       <ng-view></ng-view>
     </div>
     <script src="/app.module.js"></script>
     <script src="/app.routes.js"></script>
     <script src="/shared/lodash.js"></script>
     <script src="/shared/api_data_helper.js"></script>
+    <script src="/shared/breadcrumbs_controller.js"></script>
     <script src="/components/home/home_controller.js"></script>
     <script src="/components/home/tour_controller.js"></script>
     <script src="/components/country/country_resource.js"></script>

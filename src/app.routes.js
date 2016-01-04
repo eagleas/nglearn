@@ -1,9 +1,9 @@
 angular.module('tn-routing', ['ngRoute', 'ngResource'])
-  .config(function($routeProvider, $locationProvider, $httpProvider){
+  .config(function($routeProvider){
     $routeProvider
     .when('/', {
       templateUrl: "components/home/list.html",
-      controller: 'HomeController',
+      controller: 'HomeController'
     })
     .when('/tours/:objectId', {
       templateUrl: 'components/home/tour.html',
@@ -11,7 +11,7 @@ angular.module('tn-routing', ['ngRoute', 'ngResource'])
     })
     .when('/adm/tours', {
       templateUrl: "components/tour/list.html",
-      controller: 'ToursController',
+      controller: 'ToursController'
     })
     .when('/adm/countries', {
       templateUrl: 'components/country/countries.html',
@@ -19,11 +19,11 @@ angular.module('tn-routing', ['ngRoute', 'ngResource'])
     })
     .when('/adm/places', {
       templateUrl: 'components/place/places.html',
-      controller: 'PlacesController',
+      controller: 'PlacesController'
     })
     .when('/adm/hotels', {
       templateUrl: 'components/hotel/hotels.html',
-      controller: 'HotelsController',
+      controller: 'HotelsController'
     })
     .otherwise({
       redirectTo: '/'
