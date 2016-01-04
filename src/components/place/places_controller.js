@@ -1,14 +1,15 @@
 
-angular.module('tnTour').controller('PlacesController', function($scope, apiDataHelper, Place, Country){
+angular.module('tnTour').controller('PlacesController', function($q, $scope, apiDataHelper, Place, Country){
 
   $scope.countries = Country.all();
   $scope.places = Place.all();
   $scope.newPlace = null;
 
-  function addPointer(place){
-    angular.extend(place.country,
-      apiDataHelper.createPointer('Country', $scope.countries, place.country.objectId));
-  }
+  $q.all([$scope.countries.$promise, $scope.places.$promise]).then(function(){
+    angular.forEach($scope.places, function(place){
+      angular.extend(place.country, _.find($scope.countries, 'objectId', place.country.objectId));
+    });
+  });
 
   function insertPlace(place){
     $scope.places.push(place);
@@ -16,25 +17,12 @@ angular.module('tnTour').controller('PlacesController', function($scope, apiData
   }
 
   $scope.addPlace = function(){
-    addPointer($scope.newPlace);
-    new Place($scope.newPlace).$save().then(
-      function(place){
-        var placeFromServer = angular.extend(place, $scope.newPlace);
-        insertPlace(placeFromServer);
-        $scope.newPlace = null;
-      }
-    );
+    Place.add($scope.newPlace);
+    $scope.newPlace = null;
   }
 
   $scope.deletePlace = function(place){
-    new Place(place).$delete().then(
-      function(){
-        var index = $scope.places.indexOf(place);
-        if (index > -1) {
-          $scope.places.splice(index, 1);
-        }
-      }
-    );
+    Place.remove(place);
   }
 
   $scope.editPlace = function(place){
@@ -43,11 +31,7 @@ angular.module('tnTour').controller('PlacesController', function($scope, apiData
   }
 
   $scope.savePlace = function(place){
-    addPointer(place.draft);
-    new Place(place.draft).$update().then( function(){
-      angular.copy(place.draft, place);
-      $scope.places.sort(function(a, b){ return a.name.localeCompare(b.name) });
-    })
+    Place.store(place);
   }
 
   $scope.cancelEdit = function(place){

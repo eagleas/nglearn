@@ -16,7 +16,7 @@
   </div>
 </div>
 <!-- Список мест -->
-<div ng-repeat="place in places track by $index">
+<div ng-repeat="place in places | orderBy: 'name' track by $index">
   <div ng-hide="place.draft">
     <div class="row vertical-align">
       <div class="col-md-6">

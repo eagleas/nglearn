@@ -40,7 +40,7 @@ describe('TourController', function(){
     });
 
     it('remove tour', function(){
-      var tour = { objectId: 't1', title: 'Tour 1', country: 'c1', place: 'p1', hotel: 'h1' };
+      var tour = { objectId: 't1', title: 'Tour1', country: {objectId: 'c1'}, place: {objectId: 'p1'}, hotel: {objectId: 'h1'}};
       $httpBackend.whenGET(APIurl).respond(200, { results: [tour] });
       $httpBackend.flush();
       expect(Tour.all().length).toBe(1);
@@ -52,7 +52,7 @@ describe('TourController', function(){
     });
 
     it('store tour', function(){
-      var tour = { objectId: 't1', title: 'Tour1', country: 'c1', place: 'p1', hotel: 'h1' };
+      var tour = { objectId: 't1', title: 'Tour1', country: {objectId: 'c1'}, place: {objectId: 'p1'}, hotel: {objectId: 'h1'}};
       $httpBackend.whenGET(APIurl).respond(200, { results: [tour] });
       var draft_title = 'a New tour';
       var draft = angular.copy(tour);

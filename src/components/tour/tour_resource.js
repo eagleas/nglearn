@@ -64,6 +64,7 @@ angular.module('tnTour').factory('Tour', function($resource, apiDataHelper){
   };
 
   Tour.store = function(tour){
+    extendPointers(tour.draft);
     new Tour(tour.draft).$update().then(function(result){
       angular.copy(tour.draft, tour);
       notifyObservers();

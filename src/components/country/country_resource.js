@@ -14,9 +14,7 @@ angular.module('tnTour').factory('Country', function($resource){
 
   function parseResult(response){
     data = angular.fromJson(response);
-    var countries = data.results;
-    countries.sort(function(a, b){ return a.name.localeCompare(b.name) });
-    return countries;
+    return data.results;
   }
 
   function init() {

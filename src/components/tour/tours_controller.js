@@ -13,7 +13,7 @@ angular.module('tnTour').controller('ToursController', function($scope, $q, _, a
     $scope.$$phase || $scope.$digest();
   });
 
-  $q.all([$scope.tours.$promise, $scope.countries.$promise, $scope.hotels.$promise]).then(function(){
+  $q.all([$scope.tours.$promise, $scope.countries.$promise, $scope.places.$promise, $scope.hotels.$promise]).then(function(){
     angular.forEach($scope.tours, function(tour){
       angular.extend(tour.country, _.find($scope.countries, 'objectId', tour.country.objectId));
       angular.extend(tour.place, _.find($scope.places, 'objectId', tour.place.objectId));
@@ -48,6 +48,7 @@ angular.module('tnTour').controller('ToursController', function($scope, $q, _, a
 
   $scope.saveTour = function(tour){
     Tour.store(tour);
+    tour.editMode = false;
   }
 
   $scope.cancelEdit = function(tour){

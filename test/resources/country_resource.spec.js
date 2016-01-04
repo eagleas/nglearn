@@ -15,10 +15,10 @@ describe('TourController', function(){
       $httpBackend.expectGET(APIurl).respond(200);
       expect($httpBackend.verifyNoOutstandingExpectation).not.toThrow();
     });
-    it('parse and sort results', function(){
+    it('parse results', function(){
       var andorra = { objectId: 'a1', name: 'Andorra' };
       var cuba = { objectId: 'b1', name: 'Cuba' };
-      var response = { results: [cuba, andorra] };
+      var response = { results: [andorra, cuba] };
       $httpBackend.expectGET(APIurl).respond(200, response);
       $httpBackend.flush();
       expect(Country.all().length).toBe(2);
