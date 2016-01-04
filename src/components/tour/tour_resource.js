@@ -9,8 +9,9 @@ angular.module('tnTour').factory('Tour', function($resource, apiDataHelper){
     'https://api.parse.com/1/classes/Tour/:objectId',
     { objectId: '@objectId' },
     {
-      query: { isArray: true, transformResponse: parseResult },
-      update: { method: 'PUT' }
+      get:    { url: 'https://api.parse.com/1/classes/Tour/:objectId?include=country,place,hotel' },
+      query:  { isArray: true, transformResponse: parseResult },
+      update: { method: 'PUT' },
     }
   )
 

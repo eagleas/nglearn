@@ -1,5 +1,5 @@
 
-angular.module('tnTour').controller('PlacesController', function($q, $scope, apiDataHelper, Place, Country){
+angular.module('tnTour').controller('PlacesController', function($q, $scope, Place, Country){
 
   $scope.countries = Country.all();
   $scope.places = Place.all();
