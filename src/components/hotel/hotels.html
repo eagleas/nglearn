@@ -1,5 +1,7 @@
 <div class="row edit-form">
-  <button class="btn btn-primary" ng-disabled="!hiddenForm" ng-click="showForm()">Добавить отель</button>
+  <div class="col-md-2">
+    <button class="btn btn-primary" ng-disabled="!hiddenForm" ng-click="showForm()">Добавить отель</button>
+  </div>
 </div>
 <div class="row">
   <!-- Форма добавления отеля -->
@@ -44,7 +46,7 @@
 <!-- Список отелей -->
 <div class="row item" ng-repeat="hotel in hotels | orderBy: 'name'">
   <div ng-show="!hotel.editMode">
-    <div class="row">
+    <div>
       <div class="col-md-10">
         <h3>{{hotel.name}}
           <span class="label-country">{{hotel.country.name}}</span>
@@ -55,7 +57,7 @@
         <h3>Звезд: {{hotel.stars}}</h3>
       </div>
     </div>
-    <div class="row text-right">
+    <div class="text-right">
       <div class="col-md-8 text-left">
       </div>
       <div class="col-md-2" ><a ng-click="editHotel(hotel)">Редактировать</a></div>
