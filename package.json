@@ -4,7 +4,7 @@
   "description": "Learning app created in course AngularJS",
   "main": "gulpfile.js",
   "dependencies": {
-    "angular": "^1.4.14",
+    "angular": "^1.6.0",
     "lodash": "^4.17.13"
   },
   "devDependencies": {
