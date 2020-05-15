@@ -20,21 +20,23 @@
           <h1 class="title"><a href="/#/">Турагенство</a></h1>
         </div>
       </div>
+      <div ng-include src="'/breadcrumbs.html'"></div>
       <ng-view></ng-view>
     </div>
     <script src="/app.module.js"></script>
     <script src="/app.routes.js"></script>
     <script src="/shared/lodash.js"></script>
-    <script src="/shared/apiDataHelper.js"></script>
-    <script src="/components/home/homeController.js"></script>
-    <script src="/components/home/tourController.js"></script>
-    <script src="/components/country/country.js"></script>
-    <script src="/components/country/countriesController.js"></script>
-    <script src="/components/place/place.js"></script>
-    <script src="/components/place/placesController.js"></script>
-    <script src="/components/hotel/hotel.js"></script>
-    <script src="/components/hotel/hotelsController.js"></script>
-    <script src="/components/tour/tour.js"></script>
-    <script src="/components/tour/toursController.js"></script>
+    <script src="/shared/api_data_helper.js"></script>
+    <script src="/shared/breadcrumbs_controller.js"></script>
+    <script src="/components/home/home_controller.js"></script>
+    <script src="/components/home/tour_controller.js"></script>
+    <script src="/components/country/country_resource.js"></script>
+    <script src="/components/country/countries_controller.js"></script>
+    <script src="/components/place/place_resource.js"></script>
+    <script src="/components/place/places_controller.js"></script>
+    <script src="/components/hotel/hotel_resource.js"></script>
+    <script src="/components/hotel/hotels_controller.js"></script>
+    <script src="/components/tour/tour_resource.js"></script>
+    <script src="/components/tour/tours_controller.js"></script>
   </body>
 </html>

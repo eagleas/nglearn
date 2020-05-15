@@ -1,10 +1,7 @@
-<div class="row">
-  <div class=col-md-8>
-    <h2>Отели</h2>
-  </div>
-</div>
 <div class="row edit-form">
-  <button class="btn btn-primary" ng-disabled="!hiddenForm" ng-click="showForm()">Добавить отель</button>
+  <div class="col-md-2">
+    <button class="btn btn-primary" ng-disabled="!hiddenForm" ng-click="showForm()">Добавить отель</button>
+  </div>
 </div>
 <div class="row">
   <!-- Форма добавления отеля -->
@@ -23,13 +20,13 @@
         <div class="col-md-4">
           <label for="newHotel_country" accesskey="С"><u>С</u>трана</label>
           <select class="form-control" id="newHotel_country" ng-model="newHotel.country"
-            ng-options="country.name for country in countries track by country.objectId">
+            ng-options="country.name for country in countries | orderBy: 'name' track by country.objectId">
           </select>
         </div>
         <div class="col-md-4">
           <label for="newHotel_place" accesskey="М"><u>М</u>есто</label>
           <select class="form-control" id="newHotel_place" ng-model="newHotel.place"
-            ng-options="place.name for place in places | filter: {country: {objectId: newHotel.country.objectId}} track by place.objectId">
+            ng-options="place.name for place in places | filter: {country: {objectId: newHotel.country.objectId}} | orderBy: 'name' track by place.objectId">
           </select>
         </div>
       </div>
@@ -47,9 +44,9 @@
   </div>
 </div>
 <!-- Список отелей -->
-<div class="row item" ng-repeat="hotel in hotels">
+<div class="row item" ng-repeat="hotel in hotels | orderBy: 'name'">
   <div ng-show="!hotel.editMode">
-    <div class="row">
+    <div>
       <div class="col-md-10">
         <h3>{{hotel.name}}
           <span class="label-country">{{hotel.country.name}}</span>
@@ -60,7 +57,7 @@
         <h3>Звезд: {{hotel.stars}}</h3>
       </div>
     </div>
-    <div class="row text-right">
+    <div class="text-right">
       <div class="col-md-8 text-left">
       </div>
       <div class="col-md-2" ><a ng-click="editHotel(hotel)">Редактировать</a></div>

@@ -6,6 +6,12 @@ angular.module('tnTour').factory('apiDataHelper', function(_){
         className: className,
         name: _.find(arr, 'objectId', objId).name
       }
+    },
+    extendPointer: function(className, objId){
+      return {
+        __type: 'Pointer',
+        className: className,
+      }
     }
   }
 })

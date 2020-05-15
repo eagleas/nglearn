@@ -1,0 +1,8 @@
+<div class="row" ng-controller="BreadcrumbsController">
+  <ol class="breadcrumb" ng-if="crumb">
+    <li><a href="/#/adm/countries" ng-class="{active: (crumb == 'countries')}">Страны</a></li>
+    <li><a href="/#/adm/places" ng-class="{active: (crumb == 'places')}">Места</a></li>
+    <li><a href="/#/adm/hotels" ng-class="{active: (crumb == 'hotels')}">Отели</a></li>
+    <li><a href="/#/adm/tours" ng-class="{active: (crumb == 'tours')}">Туры</a></li>
+  </ol>
+</div>

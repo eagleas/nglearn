@@ -1,4 +1,3 @@
-<h2>Места</h2>
 <!-- Форма добавления места -->
 <div class="row vertical-align edit-form">
   <div class="col-md-4">
@@ -16,7 +15,7 @@
   </div>
 </div>
 <!-- Список мест -->
-<div ng-repeat="place in places track by $index">
+<div ng-repeat="place in places | orderBy: 'name' track by $index">
   <div ng-hide="place.draft">
     <div class="row vertical-align">
       <div class="col-md-6">

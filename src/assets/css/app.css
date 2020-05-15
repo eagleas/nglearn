@@ -10,6 +10,15 @@ h1.title a {
   text-decoration: none;
 }
 
+ol.breadcrumb {
+  font-size: 18px;
+}
+ol.breadcrumb a.active {
+  font-size: 22px;
+  text-decoration: none;
+  color: #000000;
+}
+
 .item {
   margin-top: 10px;
 }
